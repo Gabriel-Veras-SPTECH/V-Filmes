@@ -6,76 +6,253 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AquaTech | Página Inicial</title>
+    <title>V-Filmes | Home</title>
 
     <script src="./js/sessao.js"></script>
 
     <link rel="stylesheet" href="./css/estilo.css">
-    <link rel="icon" href="./assets/icon/favicon2.ico">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="icon" href="./assets/icon/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Darker+Grotesque:wght@300..900&family=League+Spartan:wght@100..900&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div class="header">
       <div class="container">
-        <h1 class="titulo">AquaTech</h1>
+        <a href="index.html"><img src="assets/imgs/logo-branco.png" alt="logo-branco"></a>
         <ul class="navbar">
-          <li class="agora">
-            <a href="#">Inicial</a>
+          <li>
+            <a href="#"><p>Início</p></a>
           </li>
           <li>
-            <a href="simulador.html">Simulador</a>
+            <a href="simulador.html"><p>História do Cinema</p></a>
           </li>
           <li>|</li>
           <li>
-            <a href="login.html">Login</a>
+            <a href="cadastro.html"><p>Cadastrar</p></a>
           </li>
           <li>
-            <a href="cadastro.html">Cadastro</a>
+            <a href="login.html">
+            <div class="botao-entrar"><p>Entrar</p></div>
+            </a>
           </li>
         </ul>
       </div>
     </div>
   
-    <div class="banner">
+    <div class="pagina">
       <div class="container">
-        <p>Preservando <span>hoje</span> para existirem <span>amanhã</span>.</p>
-      </div>
-    </div>
-  
-    <div class="social">
-      <div class="container">
-        <div class="boxes">
-          <div class="box">
-            <img src="assets/imgs/planet-earth_color.png">
-            <h4>Missão</h4>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et, quas cupiditate asperiores provident magnam
-              vitae illum iusto fugiat atque deleniti nulla sed iure suscipit, laborum, aliquid accusantium cum dicta
-              minima.</p>
-          </div>
-          <div class="box">
-            <img src="assets/imgs/lightbulb_color.png">
-            <h4>Visão</h4>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et, quas cupiditate asperiores provident magnam
-              vitae illum iusto fugiat atque deleniti nulla sed iure suscipit, laborum, aliquid accusantium cum dicta
-              minima.</p>
-          </div>
-          <div class="box">
-            <img src="assets/imgs/growth_color.png">
-            <h4>Valores</h4>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et, quas cupiditate asperiores provident magnam
-              vitae illum iusto fugiat atque deleniti nulla sed iure suscipit, laborum, aliquid accusantium cum dicta
-              minima.</p>
-          </div>
+        <div class="intro">
+        <p>Conheça mais sobre Cinema!</p>
+        <p>Este site foi feito para incentivar o cinema e sua história, com apenas 16 filmes do gosto do desenvolvedor. Sinta-se livre para comentar, discutir, engajar e compartilhar suas visões com os outros.</p>
+
         </div>
+
+        <section class="drama">
+          <div class="categoria">
+          <p>Filmes de <span>Ficção Científica</span></p>
+          </div>
+
+          <div class="posters">
+            <a class="poster">
+              <div class="img">
+              </div>
+              <div class="info">
+              <p>Blade Runner</p>
+              <p>1982 • Ficção Científica</p>
+              </div>
+            </a>
+            <a class="poster">
+              <div class="img">
+              </div>
+              <div class="info">
+              <p>Akira</p>
+              <p>1988 • Ficção Científica</p>
+              </div>
+            </a>
+            <a class="poster">
+              <div class="img">
+              </div>
+              <div class="info">
+              <p>2001: Uma Odisseia no Espaço</p>
+              <p>1968 • Ficção Científica</p>
+              </div>
+            </a>
+            <a class="poster">
+              <div class="img">
+              </div>
+              <div class="info">
+              <p>Ex_Machina</p>
+              <p>2014 • Ficção Científica</p>
+              </div>
+            </a>
+          </div>
+
+        </section>
+
+        <section class="terror">
+          <div class="categoria">
+          <p>Filmes de <span>Terror</span></p>
+          </div>
+
+          <div class="posters">
+            <a class="poster">
+              <div class="img">
+              </div>
+              <div class="info">
+              <p>O Exorcista</p>
+              <p>1973 • Terror</p>
+              </div>
+            </a>
+            <a class="poster">
+              <div class="img">
+              </div>
+              <div class="info">
+              <p>A Bruxa de Blair</p>
+              <p>1999 • Terror</p>
+              </div>
+            </a>
+            <a class="poster">
+              <div class="img">
+              </div>
+              <div class="info">
+              <p>Cloverfield</p>
+              <p>2008 • Terror</p>
+              </div>
+            </a>
+            <a class="poster">
+              <div class="img">
+              </div>
+              <div class="info">
+              <p>Assim na Terra como no Inferno</p>
+              <p>2014 • Terror</p>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <section class="acao">
+          <div class="categoria">
+          <p>Filmes de <span>Ação</span></p>
+          </div>
+
+          <div class="posters">
+            <a class="poster">
+              <div class="img">
+              </div>
+              <div class="info">
+              <p>Três Homens em Conflito</p>
+              <p>1966 • Ação</p>
+              </div>
+            </a>
+            <a class="poster">
+              <div class="img">
+              </div>
+              <div class="info">
+              <p>John Wick 4: Baba Yaga</p>
+              <p>2023 • Ação</p>
+              </div>
+            </a>
+            <a class="poster">
+              <div class="img">
+              </div>
+              <div class="info">
+              <p>Missão: Impossível</p>
+              <p>1996 • Ação</p>
+              </div>
+            </a>
+            <a class="poster">
+              <div class="img">
+              </div>
+              <div class="info">
+              <p>Glória Feita de Sangue</p>
+              <p>1957 • Ação</p>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <section class="brasileiros">
+          <div class="categoria">
+          <p>Filmes <span>Brasileiros</span></p>
+          </div>
+
+          <div class="posters">
+            <a class="poster">
+              <div class="img">
+              </div>
+              <div class="info">
+              <p>São Paulo Socidade Anônima</p>
+              <p>1965 • Drama</p>
+              </div>
+            </a>
+            <a class="poster">
+              <div class="img">
+              </div>
+              <div class="info">
+              <p>Cabra Marcado Para Morrer</p>
+              <p>1984 • Documentário</p>
+              </div>
+            </a>
+            <a class="poster">
+              <div class="img">
+              </div>
+              <div class="info">
+              <p>Rio Zona Norte</p>
+              <p>1957 • Drama</p>
+              </div>
+            </a>
+            <a class="poster">
+              <div class="img">
+              </div>
+              <div class="info">
+              <p>Noite Vazia</p>
+              <p>1964 • Drama</p>
+              </div>
+            </a>
+          </div>
+        </section>
       </div>
     </div>
-  
+
+    <!-- FOOTER -->
     <div class="footer">
+
       <div class="container">
-        <h4>Feito com amor por aluno &hearts; SPTech &copy; 2023</h4>
-        <span class="version">v1.0.0</span>
+        <div class="logo">
+          <a href="index.html"><img src="assets/imgs/logo-branco.png" alt="logo-branco"></a>
+        </div>
+
+          <div class="footer_col">
+              <span>Links Rápidos</span>
+              <a href="#">Filmes de Drama</a>
+              <a href="#">Filmes de Terror</a>
+              <a href="#">Filmes de Ação</a>
+              <a href="#">Filmes Brasileiros</a>
+          </div>
+
+          <div class="footer_col">
+              <span>Páginas</span>
+              <a href="index.html">Início</a>
+              <a href="simulador.html">História do Cinema</a>
+              <a href="cadastro_login.html">Cadastrar</a>
+              <a href="login.html">Entrar</a>
+          </div>
+
+          <div class="footer_col">
+              <span>Desenvolvedor</span>
+              <a href="index.html">GitHub</a>
+              <a href="simulador.html">Linkedin</a>
+              <a href="cadastro_login.html">Instagram</a>
+          </div>
+
+    </div>
       </div>
+
+    </div>
+    <div class="rodape_final">
+      <h4>&copy;Feito por Gabriel Veras - <span>SPTech 2026</span></h4>
     </div>
   </body>
 
