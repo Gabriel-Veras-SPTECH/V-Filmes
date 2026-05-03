@@ -1,12 +1,15 @@
 body {
   margin: 0;
   padding: 0;
+  padding-top: 65px;
   font-family: 'League Spartan', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #1b1b1b;
 }
 
 a {
   cursor: pointer;
+  text-decoration: none;
+  color: white;
 }
 
 .container {
@@ -18,6 +21,12 @@ a {
 .header {
   height: 65px;
   background-color: black;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 .header .container {
@@ -148,7 +157,6 @@ a {
   flex-direction: column;
 
   box-sizing: border-box; 
-  overflow: hidden;
 }
 
 .pagina .container section .posters .poster .info{
@@ -188,71 +196,71 @@ a {
 }
 
 /* Ficção */
-.pagina .container .drama .posters .poster:nth-last-of-type(4) .img{
+.pagina .container #ficcao .posters .poster:nth-last-of-type(4) .img{
   background-image: url('../assets/imgs/blade-runner-poster.jpg');
 }
 
-.pagina .container .drama .posters .poster:nth-last-of-type(3) .img{
+.pagina .container #ficcao .posters .poster:nth-last-of-type(3) .img{
   background-image: url('../assets/imgs/akira-poster.jpg');
 }
 
-.pagina .container .drama .posters .poster:nth-last-of-type(2) .img{
+.pagina .container #ficcao .posters .poster:nth-last-of-type(2) .img{
   background-image: url('../assets/imgs/2001-poster.jpg');
 }
 
-.pagina .container .drama .posters .poster:nth-last-of-type(1) .img{
+.pagina .container #ficcao .posters .poster:nth-last-of-type(1) .img{
   background-image: url('../assets/imgs/ex-machina-poster.jpg');
 }
 
 /* Terror */
-.pagina .container .terror .posters .poster:nth-last-of-type(4) .img{
+.pagina .container #terror .posters .poster:nth-last-of-type(4) .img{
   background-image: url('../assets/imgs/exorcist-poster.jpg');
 }
 
-.pagina .container .terror .posters .poster:nth-last-of-type(3) .img{
+.pagina .container #terror .posters .poster:nth-last-of-type(3) .img{
   background-image: url('../assets/imgs/blair-witch-poster.jpg');
 }
 
-.pagina .container .terror .posters .poster:nth-last-of-type(2) .img{
+.pagina .container #terror .posters .poster:nth-last-of-type(2) .img{
   background-image: url('../assets/imgs/cloverfield-poster.jpg');
 }
 
-.pagina .container .terror .posters .poster:nth-last-of-type(1) .img{
+.pagina .container #terror .posters .poster:nth-last-of-type(1) .img{
   background-image: url('../assets/imgs/as-above-poster.jpg');
 }
 
 /* Ação */
-.pagina .container .acao .posters .poster:nth-last-of-type(4) .img{
+.pagina .container #acao .posters .poster:nth-last-of-type(4) .img{
   background-image: url('../assets/imgs/tres-homens-poster.jpg');
 }
 
-.pagina .container .acao .posters .poster:nth-last-of-type(3) .img{
+.pagina .container #acao .posters .poster:nth-last-of-type(3) .img{
   background-image: url('../assets/imgs/john-wick-poster.jpg');
 }
 
-.pagina .container .acao .posters .poster:nth-last-of-type(2) .img{
+.pagina .container #acao .posters .poster:nth-last-of-type(2) .img{
   background-image: url('../assets/imgs/missao-impossivel-poster.webp');
 }
 
-.pagina .container .acao .posters .poster:nth-last-of-type(1) .img{
+.pagina .container #acao .posters .poster:nth-last-of-type(1) .img{
   background-image: url('../assets/imgs/paths-of-glory-poster.webp');
 }
 
 
 /* Brasil */
-.pagina .container .brasileiros .posters .poster:nth-last-of-type(4) .img{
+.pagina .container #brasileiros .posters .poster:nth-last-of-type(4) .img{
   background-image: url('../assets/imgs/sp-sa-poster.webp');
 }
 
-.pagina .container .brasileiros .posters .poster:nth-last-of-type(3) .img{
+.pagina .container #brasileiros .posters .poster:nth-last-of-type(3) .img{
   background-image: url('../assets/imgs/cabra-marcado-poster.webp');
 }
 
-.pagina .container .brasileiros .posters .poster:nth-last-of-type(2) .img{
+.pagina .container #brasileiros .posters .poster:nth-last-of-type(2) .img{
   background-image: url('../assets/imgs/rio-zona-norte-poster.jpg');
 }
 
-.pagina .container .brasileiros .posters .poster:nth-last-of-type(1) .img{
+.pagina .container #brasileiros .posters .poster:nth-last-of-type(1) .img{
   background-image: url('../assets/imgs/noite-vazia-poster.webp');
 }
 
@@ -325,12 +333,13 @@ a {
 span {
   color: #4303c3;
 }
+
+
 /* LOGIN */
 
 .login {
-  height: var(--tamanho-login);
-  background-image: url('../assets/imgs/bg-jelly-fish-para-home.png');
-  background-size: cover;
+  height: 100%;
+  padding: 65px 0;
 }
 
 .login .container {
@@ -341,12 +350,12 @@ span {
 
 .card {
   width: 50%;
-  background-color: #e5e5e5;
+  background-color: none;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  color: palevioletred;
+  color: #4303c3;
   flex-direction: column;
   height: fit-content;
   padding: 20px 0;
@@ -354,10 +363,10 @@ span {
 
 .card h2 {
   margin: 0;
-  font-size: 30px;
+  font-size: 40px;
 }
 
-.formulario {
+#formulario {
   display: flex;
   height: 90%;
   width: 80%;
@@ -365,15 +374,20 @@ span {
   flex-direction: column;
 }
 
-.formulario input {
-  border: 2px solid #32b9cd;
+#formulario input {
+  border: 2px solid black;
   text-align: center;
   border-radius: 10px;
   margin: 0;
 }
 
-.formulario select {
-  border: 2px solid #32b9cd;
+#formulario input:focus {
+  outline: none;
+    border: 2px solid #4303c3;
+}
+
+#formulario select {
+  border: 2px solid #4303c3;
   background-color: white;
   color: gray;
   height: 36px;
@@ -387,6 +401,7 @@ span {
   flex-direction: column;
   justify-content: start;
   padding: 5px 0;
+  color: white;
 }
 
 .botao {
@@ -395,13 +410,19 @@ span {
   border: 0;
   border-radius: 5px;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 16px;
   color: #fff;
-  background-color: #ED145B;
+  background-color: #4303c3;
   width: 120px;
   height: 30px;
   align-self: center;
   margin-top: 20px;
+  transition: 0.3s ease;
+}
+
+.botao:hover {
+  box-shadow: 0 0 10px 2px #4303c3;
+  background-color: #4303c3;
 }
 
 .loading-div {
@@ -432,7 +453,6 @@ span {
   width: 230px;
   position: fixed;
   border-radius: 4px;
-  border: #ED145B 3px solid;
   padding: 10px;
   margin-right: 10%;
 }
@@ -442,19 +462,23 @@ span {
   font-size: 20px;
 }
 
-.formulario .tipo_campo {
+#formulario .tipo_campo {
   font-size: 20px;
   font-weight: 600 !important;
 }
 
-.formulario {
+#formulario {
   display: flex;
   flex-direction: column;
 }
 
+.campo span {
+  color: white;
+}
+
 input {
   margin-bottom: 10px;
-  border: 2px solid #32b9cd;
+  border: 2px solid #4303c3;
   padding: 10px;
   text-align: center;
   border-radius: 10px;
@@ -468,7 +492,7 @@ input {
   font-size: 18px;
   padding: 10px 15px;
   color: white;
-  background-color: #ED145B;
+  background-color: #4303c3;
   width: 120px;
   align-self: center;
   margin-top: 5px;

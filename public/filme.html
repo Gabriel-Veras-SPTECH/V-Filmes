@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>V-Filmes | </title>
+
+  <script src="./js/sessao.js"></script>
+
+  <link rel="stylesheet" href="./css/filme.css" />
+  <link rel="icon" href="./assets/icon/favicon2.ico" />
+
+  <!-- Link Google Fonts -->
+    <link rel="stylesheet" href="./css/estilo.css">
+    <link rel="icon" href="./assets/icon/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Darker+Grotesque:wght@300..900&family=League+Spartan:wght@100..900&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    
+</head>
+
+<body>
+  <!--header inicio-->
+  <div class="header">
+      <div class="container">
+        <a href="index.html"><img src="assets/imgs/logo-branco.png" alt="logo-branco"></a>
+        <ul class="navbar">
+          <li>
+            <a href="index.html"><p>Início</p></a>
+          </li>
+          <li>
+            <a href="simulador.html"><p>História do Cinema</p></a>
+          </li>
+          <li>|</li>
+          <li>
+            <a href="cadastro.html"><p>Cadastrar</p></a>
+          </li>
+          <li>
+            <a href="login.html">
+            <div class="botao-entrar"><p>Entrar</p></div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  <!--header fim-->
+
+  <!-- página -->
+    <div id="banner_filme" class="banner-topo"></div>
+
+    <div class="fundo-detalhes">
+    <div class="container">
+        <div class="coluna-esquerda">
+        <h1 id="titulo_filme"></h1>
+        <p id="info_filme" class="info-secundaria"></p>
+        
+        <div class="sinopse-container">
+            <p id="descricao_filme"></p>
+        </div>
+
+        <p class="elenco"><strong>Elenco:</strong> <span id="elenco_filme"></span></p>
+        </div>
+
+        <div class="coluna-direita">
+        <img id="img_filme" src="" alt="Poster">
+        </div>
+    </div>
+    </div>
+
+  <!--footer inicio-->
+  <div class="footer">
+
+      <div class="container">
+        <div class="logo">
+          <a href="index.html"><img src="assets/imgs/logo-branco.png" alt="logo-branco"></a>
+        </div>
+
+          <div class="footer_col">
+              <span>Links Rápidos</span>
+              <a href="#">Começo</a>
+          </div>
+
+          <div class="footer_col">
+              <span>Páginas</span>
+              <a href="index.html">Início</a>
+              <a href="simulador.html">História do Cinema</a>
+              <a href="cadastro.html">Cadastrar</a>
+              <a href="login.html">Entrar</a>
+          </div>
+
+          <div class="footer_col">
+              <span>Desenvolvedor</span>
+              <a href="index.html">GitHub</a>
+              <a href="simulador.html">Linkedin</a>
+              <a href="cadastro_login.html">Instagram</a>
+          </div>
+
+    </div>
+
+    </div>
+    <div class="rodape_final">
+      <h4>&copy;Feito por Gabriel Veras - <span>SPTech 2026</span></h4>
+    </div>
+  <!--footer fim-->
+</body>
+
+</html>
+
+<script>
+    // 1. Pega o ID da URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const idFilme = urlParams.get('id');
+
+    // 2. Executa ao carregar a página
+    window.onload = function() {
+        if (!idFilme) {
+            alert("Filme não encontrado!");
+            window.location.href = "index.html";
+        } else {
+            buscarDadosDoFilme();
+        }
+    }
+
+    function buscarDadosDoFilme() {
+        // Altere a URL para a rota real do seu back-end (ex: /filmes/buscar/:id)
+        fetch(`/filmes/buscar/${idFilme}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        })
+        .then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(json => {
+                    console.log(json); // Para depurar
+                    preencherPagina(json[0]); // Assume que o banco retorna um array
+                });
+            } else {
+                console.error('Erro na busca do filme');
+            }
+        })
+        .catch(function (erro) {
+            console.log(erro);
+        });
+    }
+
+    function preencherPagina(filme) {
+        document.title = `V-Filmes | ${filme.titulo}`;
+        document.getElementById("titulo_filme").innerHTML = filme.titulo;
+        document.getElementById("descricao_filme").innerHTML = filme.descricao;
+        document.getElementById("elenco_filme").innerHTML = filme.elenco;
+        document.getElementById("info_filme").innerHTML = `${filme.ano} • Direção: ${filme.diretor}`;
+        document.getElementById("img_filme").src = filme.link_poster;
+
+        if (filme.link_banner) {
+            document.getElementById("banner_filme").style.backgroundImage = `url('${filme.link_banner}')`;
+        }
+    }
+</script>
