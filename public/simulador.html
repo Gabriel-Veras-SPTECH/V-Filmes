@@ -11,7 +11,6 @@
     <script src="./js/sessao.js"></script>
 
     <link rel="stylesheet" href="./css/estilo.css">
-    <link rel="icon" href="./assets/icon/favicon2.ico">
     
     <!-- Link Google Fonts -->
     <link rel="stylesheet" href="./css/estilo.css">
@@ -20,11 +19,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Darker+Grotesque:wght@300..900&family=League+Spartan:wght@100..900&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
     
+    <!-- Link FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
-
-    <!--header inicio-->
     <div class="header">
       <div class="container">
         <a href="index.html"><img src="assets/imgs/logo-branco.png" alt="logo-branco"></a>
@@ -35,13 +36,19 @@
           <li>
             <a href="simulador.html"><p>História do Cinema</p></a>
           </li>
-          <li>|</li>
-          <li>
+          <li id="li_separador">|</li>
+          <li id="li_cadastro">
             <a href="cadastro.html"><p>Cadastrar</p></a>
           </li>
-          <li>
+          <li id="li_entrar">
             <a href="login.html">
-            <div class="botao-entrar"><p>Entrar</p></div>
+              <div class="botao-entrar"><p>Entrar</p></div>
+            </a>
+          </li>
+
+          <li id="li_perfil" style="display: none;">
+            <a href="./perfil/perfil.html">
+              <div class="botao-entrar"><p>Perfil</p></div>
             </a>
           </li>
         </ul>
@@ -94,7 +101,7 @@
               <a href="#">Filmes Brasileiros</a>
           </div>
 
-          <div class="footer_col">
+          <div class="footer_col" id="footer_id">
               <span>Páginas</span>
               <a href="index.html">Início</a>
               <a href="simulador.html">História do Cinema</a>
@@ -104,20 +111,57 @@
 
           <div class="footer_col">
               <span>Desenvolvedor</span>
-              <a href="index.html">GitHub</a>
-              <a href="simulador.html">Linkedin</a>
-              <a href="cadastro_login.html">Instagram</a>
+              <a href="https://github.com/Gabriel-Veras-SPTECH"><i class="fa-brands fa-github"></i>GitHub</a>
+              <a href="https://www.linkedin.com/in/gabriel-veras-soares-152a762b7/"><i class="fa-brands fa-linkedin"></i>Linkedin</a>
+              <a href="https://www.instagram.com/gabrielo_veras"><i class="fa-brands fa-instagram"></i>Instagram</a>
           </div>
 
     </div>
 
     </div>
     <div class="rodape_final">
-      <h4>&copy;Feito por Gabriel Veras - <span>SPTech 2026</span></h4>
+      <h4>&copy; Gabriel Veras, <span>SPTech 2026</span></h4>
     </div>
     <!--footer fim-->
 
 
 </body>
+<script>
 
+    window.onload = function() {
+        validarLogin();
+    };
+
+    function validarLogin() {
+        let email = sessionStorage.EMAIL_USUARIO;
+        let nome = sessionStorage.NOME_USUARIO;
+
+        let navbar = document.querySelector(".navbar");
+        let li_cadastro = document.getElementById("li_cadastro");
+        let li_entrar = document.getElementById("li_entrar");
+        let li_perfil = document.getElementById("li_perfil");
+        let footer_id = document.getElementById("footer_id");
+
+        if (email != null && nome != null) {
+            li_cadastro.style.display = "none";
+            li_entrar.style.display = "none";
+            li_perfil.style.display = "block";
+            footer_id.innerHTML = `<span>Páginas</span>
+              <a href="index.html">Início</a>
+              <a href="simulador.html">História do Cinema</a>
+              <a href="perfil/perfil.html">Perfil</a>`;
+            navbar.style.width = "350px";
+        } else {
+            li_cadastro.style.display = "block";
+            li_entrar.style.display = "block"; 
+            li_perfil.style.display = "none";
+            footer_id.innerHTML = `<span>Páginas</span>
+              <a href="index.html">Início</a>
+              <a href="simulador.html">História do Cinema</a>
+              <a href="cadastro.html">Cadastrar</a>
+              <a href="login.html">Entrar</a>`;
+            navbar.style.width = "425px";
+        }
+    }
+</script>
 </html>

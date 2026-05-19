@@ -314,6 +314,11 @@ a {
     transition: 0.3s ease;
 }
 
+.footer_col a i { 
+    margin-right: 4px;
+}
+
+
 .footer_col a:hover { 
     color: #4303c3;
 }

@@ -11,15 +11,18 @@
   <script src="./js/sessao.js"></script>
 
   <link rel="stylesheet" href="./css/estilo.css" />
-  <link rel="icon" href="./assets/icon/favicon2.ico" />
 
   <!-- Link Google Fonts -->
-    <link rel="stylesheet" href="./css/estilo.css">
-    <link rel="icon" href="./assets/icon/icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Darker+Grotesque:wght@300..900&family=League+Spartan:wght@100..900&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/estilo.css">
+  <link rel="icon" href="./assets/icon/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Darker+Grotesque:wght@300..900&family=League+Spartan:wght@100..900&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
     
+  <!-- Link FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -58,10 +61,6 @@
       <div class="card card-cadastro">
         <h2>Bem-vindo!</h2>
         <div id="formulario">
-          <!--
-                         Para inserir mais um campo, copie uma das inputs abaixo.
-                         Assim que inserir vá para o script abaixo.
-                     -->
           <div class="campo">
             <span>Nome:</span>
             <input id="nome_input" type="text" placeholder="Seu nome" />
@@ -112,16 +111,16 @@
 
           <div class="footer_col">
               <span>Desenvolvedor</span>
-              <a href="index.html">GitHub</a>
-              <a href="simulador.html">Linkedin</a>
-              <a href="cadastro_login.html">Instagram</a>
+              <a href="https://github.com/Gabriel-Veras-SPTECH"><i class="fa-brands fa-github"></i>GitHub</a>
+              <a href="https://www.linkedin.com/in/gabriel-veras-soares-152a762b7/"><i class="fa-brands fa-linkedin"></i>Linkedin</a>
+              <a href="https://www.instagram.com/gabrielo_veras"><i class="fa-brands fa-instagram"></i>Instagram</a>
           </div>
 
     </div>
 
     </div>
     <div class="rodape_final">
-      <h4>&copy;Feito por Gabriel Veras - <span>SPTech 2026</span></h4>
+      <h4>&copy; Gabriel Veras, <span>SPTech 2026</span></h4>
     </div>
   <!--footer fim-->
 </body>
@@ -129,9 +128,6 @@
 </html>
 
 <script>
-
-  // Array para armazenar empresas cadastradas para validação de código de ativação 
-  let listaEmpresasCadastradas = [];
 
   function cadastrar() {
     // aguardar();

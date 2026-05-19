@@ -20,6 +20,25 @@ function buscarPorId(req, res) {
     }
 }
 
+function interagir(req, res) {
+    var idUsuario = req.body.idUsuarioServer;
+    var idFilme = req.body.idFilmeServer;
+    var tipo = req.body.tipoServer; // curtida, visualizacao ou watchlist
+
+    if (idUsuario == undefined) {
+        res.status(400).send("ID do usuário está undefined!");
+    } else {
+        filmeModel.interagir(idUsuario, idFilme, tipo)
+            .then(function (resultado) {
+                res.json(resultado);
+            }).catch(function (erro) {
+                console.log(erro);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
 module.exports = {
-    buscarPorId
+    buscarPorId,
+    interagir
 };

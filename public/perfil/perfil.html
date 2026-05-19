@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="../assets/icon/icon.png" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V-Filmes | Perfil</title>
+
+
+    <link rel="stylesheet" href="../../css/dashboards.css">
+
+    <!-- Link Google Fonts -->
+    <link rel="stylesheet" href="./css/estilo.css">
+    <link rel="icon" href="./assets/icon/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Darker+Grotesque:wght@300..900&family=League+Spartan:wght@100..900&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+       
+    <!-- Link FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body onload="validarSessao()">
+
+    <div class="header">
+      <div class="container">
+        <a href="../index.html"><img src="../assets/imgs/logo-branco.png" alt="logo-branco"></a>
+        <ul class="navbar">
+          <li>
+            <a href="../index.html"><p>Início</p></a>
+          </li>
+          <li>
+            <a href="../simulador.html"><p>História do Cinema</p></a>
+          </li>
+          <li id="li_separador">|</li>
+          <li id="li_cadastro">
+            <a href="../cadastro.html"><p>Cadastrar</p></a>
+          </li>
+          <li id="li_entrar">
+            <a href="../login.html">
+              <div class="botao-entrar"><p>Entrar</p></div>
+            </a>
+          </li>
+
+          <li id="li_perfil" style="display: none;">
+            <a href="#">
+              <div class="botao-entrar"><p>Perfil</p></div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pagina">
+    <div class="container perfil-container">
+        <div class="perfil-header">
+            <div class="perfil-info">
+                <div class="foto-perfil">
+                    <img src="../assets/imgs/profile-icon-generic.png" alt="Foto de Perfil">
+                </div>
+                <div class="texto-perfil">
+                    <h1 id="nome_usuario_perfil">Nome do Usuário</h1>
+                    <p class="descricao">Entusiasta do cinema clássico e crítico amador nas horas vagas. Viciado em ficção científica.</p>
+                </div>
+            </div>
+
+            <div class="perfil-stats">
+                <div class="stat-item">
+                    <span class="stat-valor">12</span>
+                    <span class="stat-label">Filmes</span>
+                </div>
+                <div class="stat-item border-left">
+                    <span class="stat-valor">4</span>
+                    <span class="stat-label">Curtidas</span>
+                </div>
+                <div class="stat-item border-left">
+                    <span class="stat-valor">3</span>
+                    <span class="stat-label">Watchlist</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="perfil-abas">
+            <ul>
+                <a href="perfil.html"><li class="aba-ativa">Perfil</li></a>
+                <a href="estatisticas.html"><li>Estatísticas</li></a>
+                <a href="configuracoes.html"><li>Configurações</li></a>
+            </ul>
+        </div>
+        
+        <div class="aba-conteudo">
+            <p>conteúdo...</p>
+        </div>
+        </div>
+    </div>
+
+
+        
+    <div class="footer">
+
+      <div class="container">
+        <div class="logo">
+          <a href="../index.html"><img src="../assets/imgs/logo-branco.png" alt="logo-branco"></a>
+        </div>
+
+          <div class="footer_col">
+              <span>Links Rápidos</span>
+              <a href="#">Começo</a>
+          </div>
+
+          <div class="footer_col" id="footer_id">
+              <span>Páginas</span>
+              <a href="index.html">Início</a>
+              <a href="simulador.html">História do Cinema</a>
+              <a href="perfil.html">Perfil</a>
+          </div>
+
+          <div class="footer_col">
+              <span>Desenvolvedor</span>
+              <a href="https://github.com/Gabriel-Veras-SPTECH"><i class="fa-brands fa-github"></i>GitHub</a>
+              <a href="https://www.linkedin.com/in/gabriel-veras-soares-152a762b7/"><i class="fa-brands fa-linkedin"></i>Linkedin</a>
+              <a href="https://www.instagram.com/gabrielo_veras"><i class="fa-brands fa-instagram"></i>Instagram</a>
+          </div>
+
+    </div>
+
+    </div>
+    <div class="rodape_final">
+      <h4>&copy; Gabriel Veras, <span>SPTech 2026</span></h4>
+    </div>
+
+</body>
+
+<script>
+
+    window.onload = function() {
+        validarLogin();
+        if (sessionStorage.NOME_USUARIO) {
+            document.getElementById("nome_usuario_perfil").innerHTML = sessionStorage.NOME_USUARIO;
+        }
+    };
+
+    function validarLogin() {
+        let email = sessionStorage.EMAIL_USUARIO;
+        let nome = sessionStorage.NOME_USUARIO;
+
+        let navbar = document.querySelector(".navbar");
+        let li_cadastro = document.getElementById("li_cadastro");
+        let li_entrar = document.getElementById("li_entrar");
+        let li_perfil = document.getElementById("li_perfil");
+
+        if (email != null && nome != null) {
+            li_cadastro.style.display = "none";
+            li_entrar.style.display = "none";
+            li_perfil.style.display = "block";
+            navbar.style.width = "350px";
+        } else {
+            li_cadastro.style.display = "block";
+            li_entrar.style.display = "block"; 
+            li_perfil.style.display = "none";
+            navbar.style.width = "425px";
+        }
+    }
+
+</script>
+
+</html>

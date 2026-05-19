@@ -155,6 +155,16 @@ a {
   color: #ddd;
 }
 
+.botoes {
+  display: flex;
+  gap: 10px;
+}
+
+.botoes img {
+  width: 50px;
+  cursor: pointer;
+}
+
 
 
 /* FOOTER */
@@ -206,6 +216,11 @@ a {
     font-size: 14px; 
     transition: 0.3s ease;
 }
+
+.footer_col a i { 
+    margin-right: 4px;
+}
+
 
 .footer_col a:hover { 
     color: #4303c3;
