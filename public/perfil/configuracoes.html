@@ -8,23 +8,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>V-Filmes | Configurações</title>
 
-
     <link rel="stylesheet" href="../../css/dashboards.css">
 
-    <!-- Link Google Fonts -->
-    <link rel="stylesheet" href="./css/estilo.css">
     <link rel="icon" href="./assets/icon/icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Darker+Grotesque:wght@300..900&family=League+Spartan:wght@100..900&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
         
-    <!-- Link FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body onload="validarSessao()">
+<body>
 
     <div class="header">
       <div class="container">
@@ -32,9 +28,6 @@
         <ul class="navbar">
           <li>
             <a href="../index.html"><p>Início</p></a>
-          </li>
-          <li>
-            <a href="../simulador.html"><p>História do Cinema</p></a>
           </li>
           <li id="li_separador">|</li>
           <li id="li_cadastro">
@@ -47,7 +40,7 @@
           </li>
 
           <li id="li_perfil" style="display: none;">
-            <a href="perfil.html">
+            <a href="diario.html">
               <div class="botao-entrar"><p>Perfil</p></div>
             </a>
           </li>
@@ -60,25 +53,25 @@
         <div class="perfil-header">
             <div class="perfil-info">
                 <div class="foto-perfil">
-                    <img src="../assets/imgs/profile-icon-generic.png" alt="Foto de Perfil">
+                    <img id="foto_usuario_perfil" src="" alt="Foto de Perfil">
                 </div>
                 <div class="texto-perfil">
                     <h1 id="nome_usuario_perfil">Nome do Usuário</h1>
-                    <p class="descricao">Entusiasta do cinema clássico e crítico amador nas horas vagas. Viciado em ficção científica.</p>
+                    <p class="descricao" id="descricao_usuario_perfil"></p>
                 </div>
             </div>
 
             <div class="perfil-stats">
                 <div class="stat-item">
-                    <span class="stat-valor">12</span>
+                    <span class="stat-valor" id="stat_filmes">0</span>
                     <span class="stat-label">Filmes</span>
                 </div>
                 <div class="stat-item border-left">
-                    <span class="stat-valor">4</span>
+                    <span class="stat-valor" id="stat_curtidas">0</span>
                     <span class="stat-label">Curtidas</span>
                 </div>
                 <div class="stat-item border-left">
-                    <span class="stat-valor">3</span>
+                    <span class="stat-valor" id="stat_watchlist">0</span>
                     <span class="stat-label">Watchlist</span>
                 </div>
             </div>
@@ -86,22 +79,46 @@
 
         <div class="perfil-abas">
             <ul>
-                <a href="perfil.html"><li>Perfil</li></a>
+                <a href="diario.html"><li>Diário</li></a>
                 <a href="estatisticas.html"><li>Estatísticas</li></a>
                 <a href="configuracoes.html"><li class="aba-ativa">Configurações</li></a>
             </ul>
         </div>
         
         <div class="aba-conteudo">
-            <p>conteúdo...</p>
+            <div class="form-configuracoes">
+                <h1>Editar Perfil</h1>
+                
+                <div class="campo-input">
+                    <label for="input_nome">Nome de Usuário</label>
+                    <input type="text" id="input_nome" placeholder="Seu nome">
+                </div>
+
+                <div class="campo-input">
+                    <label for="input_foto">Link da Foto de Perfil (Web URL)</label>
+                    <input type="text" id="input_foto" placeholder="https://exemplo.com/sua-foto.jpg">
+                </div>
+
+                <div class="campo-input">
+                    <label for="input_bio">Biografia / Descrição</label>
+                    <textarea id="input_bio" rows="3" placeholder="Conte um pouco sobre você..."></textarea>
+                </div>
+
+                <div class="campo-input">
+                    <label for="input_senha">Nova Senha (deixe em branco para não alterar)</label>
+                    <input type="password" id="input_senha" placeholder="******">
+                </div>
+
+                <div class="botoes-acoes">
+                    <button class="btn-salvar" onclick="atualizarPerfil()">Salvar Alterações</button>
+                    <button class="btn-sair" onclick="limparSessao()">Sair da Conta</button>
+                </div>
+            </div>
         </div>
         </div>
     </div>
-
-
         
     <div class="footer">
-
       <div class="container">
         <div class="logo">
           <a href="../index.html"><img src="../assets/imgs/logo-branco.png" alt="logo-branco"></a>
@@ -125,10 +142,9 @@
               <a href="https://www.linkedin.com/in/gabriel-veras-soares-152a762b7/"><i class="fa-brands fa-linkedin"></i>Linkedin</a>
               <a href="https://www.instagram.com/gabrielo_veras"><i class="fa-brands fa-instagram"></i>Instagram</a>
           </div>
-
+    </div>
     </div>
 
-    </div>
     <div class="rodape_final">
       <h4>&copy; Gabriel Veras, <span>SPTech 2026</span></h4>
     </div>
@@ -136,11 +152,12 @@
 </body>
 
 <script>
-
     window.onload = function() {
         validarLogin();
-        if (sessionStorage.NOME_USUARIO) {
-            document.getElementById("nome_usuario_perfil").innerHTML = sessionStorage.NOME_USUARIO;
+        if (sessionStorage.ID_USUARIO) {
+            obterDadosPerfil(sessionStorage.ID_USUARIO);
+        } else {
+            window.location = "../login.html";
         }
     };
 
@@ -157,15 +174,84 @@
             li_cadastro.style.display = "none";
             li_entrar.style.display = "none";
             li_perfil.style.display = "block";
-            navbar.style.width = "350px";
+            navbar.style.width = "200px";
         } else {
             li_cadastro.style.display = "block";
             li_entrar.style.display = "block"; 
             li_perfil.style.display = "none";
-            navbar.style.width = "425px";
+            navbar.style.width = "200px";
         }
     }
 
-</script>
+    function obterDadosPerfil(idUsuario) {
+        fetch(`/usuarios/buscarPerfil/${idUsuario}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        })
+        .then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (dados) {
+                    document.getElementById("nome_usuario_perfil").innerHTML = dados.nome;
+                    document.getElementById("descricao_usuario_perfil").innerHTML = dados.bio ? dados.bio : "Sem biografia definida.";
+                    
+                    if (dados.foto) {
+                        document.getElementById("foto_usuario_perfil").src = dados.foto;
+                        // Preenche o input caso já possua foto personalizada da web
+                        if(dados.foto != '../assets/imgs/profile-icon-generic.png') {
+                            document.getElementById("input_foto").value = dados.foto;
+                        }
+                    }
 
+                    document.getElementById("stat_filmes").innerHTML = dados.total_filmes;
+                    document.getElementById("stat_curtidas").innerHTML = dados.total_curtidas;
+                    document.getElementById("stat_watchlist").innerHTML = dados.total_watchlist;
+
+                    // Preenche os campos do formulário para edição
+                    document.getElementById("input_nome").value = dados.nome;
+                    document.getElementById("input_bio").value = dados.bio ? dados.bio : "";
+                });
+            }
+        });
+    }
+
+    function atualizarPerfil() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+        var nomeVar = document.getElementById("input_nome").value;
+        var fotoVar = document.getElementById("input_foto").value;
+        var bioVar = document.getElementById("input_bio").value;
+        var senhaVar = document.getElementById("input_senha").value;
+
+        if (nomeVar == "") {
+            alert("O nome não pode ficar em branco.");
+            return false;
+        }
+
+        fetch(`/usuarios/atualizar/${idUsuario}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                nomeServer: nomeVar,
+                fotoServer: fotoVar == "" ? null : fotoVar, // Se estiver vazio mantém o default pelo banco ou lógica
+                bioServer: bioVar,
+                senhaServer: senhaVar == "" ? null : senhaVar // Envia null se o usuário optou por não mudar a senha
+            })
+        }).then(function (resposta) {
+            if (resposta.ok) {
+                alert("Perfil atualizado com sucesso!");
+                // Atualiza o sessionStorage caso tenha mudado o nome
+                sessionStorage.NOME_USUARIO = nomeVar;
+                window.location.reload();
+            } else {
+                alert("Houve um erro ao atualizar o perfil.");
+            }
+        }).catch(function (erro) {
+            console.log(erro);
+        });
+    }
+
+    function limparSessao() {
+        sessionStorage.clear();
+        window.location = "../index.html";
+    }
+</script>
 </html>

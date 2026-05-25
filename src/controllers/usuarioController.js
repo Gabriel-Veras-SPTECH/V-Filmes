@@ -69,7 +69,101 @@ function cadastrar(req, res) {
     }
 }
 
+function buscarPerfil(req, res) {
+    var idUsuario = req.params.idUsuario;
+
+    if (idUsuario == undefined) {
+        res.status(400).send("O idUsuario está undefined!");
+    } else {
+        usuarioModel.buscarPerfil(idUsuario)
+            .then(function (resultado) {
+                if (resultado.length > 0) {
+                    res.status(200).json(resultado[0]);
+                } else {
+                    res.status(204).send("Nenhum usuário encontrado para o perfil.");
+                }
+            }).catch(function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao buscar o perfil! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
+function atualizar(req, res) {
+    var idUsuario = req.params.idUsuario;
+    var nome = req.body.nomeServer;
+    var foto = req.body.fotoServer;
+    var bio = req.body.bioServer;
+    var senha = req.body.senhaServer;
+
+    if (idUsuario == undefined) {
+        res.status(400).send("O idUsuario está indefinido!");
+    } else if (nome == undefined) {
+        res.status(400).send("Seu nome está indefinido!");
+    } else {
+        usuarioModel.atualizar(idUsuario, nome, foto, bio, senha)
+            .then(function (resultado) {
+                res.status(200).json(resultado);
+            }).catch(function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao atualizar o perfil! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
+function buscarKpisEstatisticas(req, res) {
+    var idUsuario = req.params.idUsuario;
+    usuarioModel.buscarKpisEstatisticas(idUsuario)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado[0]);
+            } else {
+                res.status(204).send("Nenhum dado encontrado.");
+            }
+        }).catch(function (erro) {
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function buscarGraficoGeneros(req, res) {
+    var idUsuario = req.params.idUsuario;
+    usuarioModel.buscarGraficoGeneros(idUsuario)
+        .then(function (resultado) {
+            // Garante que mesmo se o banco voltar vazio, enviamos um array [] para não quebrar o forEach
+            if (resultado && resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(200).json([]); 
+            }
+        }).catch(function (erro) {
+            console.error(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function buscarGraficoDiretores(req, res) {
+    var idUsuario = req.params.idUsuario;
+    usuarioModel.buscarGraficoDiretores(idUsuario)
+        .then(function (resultado) {
+            if (resultado && resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(200).json([]);
+            }
+        }).catch(function (erro) {
+            console.error(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    buscarPerfil,
+    atualizar,
+    buscarKpisEstatisticas,
+    buscarGraficoGeneros,
+    buscarGraficoDiretores
 }

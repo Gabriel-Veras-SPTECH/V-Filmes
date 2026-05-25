@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="../../css/dashboards.css">
 
     <!-- Link Google Fonts -->
-    <link rel="stylesheet" href="./css/estilo.css">
     <link rel="icon" href="./assets/icon/icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,9 +31,6 @@
         <ul class="navbar">
           <li>
             <a href="../index.html"><p>Início</p></a>
-          </li>
-          <li>
-            <a href="../simulador.html"><p>História do Cinema</p></a>
           </li>
           <li id="li_separador">|</li>
           <li id="li_cadastro">
@@ -60,25 +56,25 @@
         <div class="perfil-header">
             <div class="perfil-info">
                 <div class="foto-perfil">
-                    <img src="../assets/imgs/profile-icon-generic.png" alt="Foto de Perfil">
+                    <img id="foto_usuario_perfil" src="" alt="Foto de Perfil">
                 </div>
                 <div class="texto-perfil">
                     <h1 id="nome_usuario_perfil">Nome do Usuário</h1>
-                    <p class="descricao">Entusiasta do cinema clássico e crítico amador nas horas vagas. Viciado em ficção científica.</p>
+                    <p class="descricao" id="descricao_usuario_perfil"></p>
                 </div>
             </div>
 
             <div class="perfil-stats">
                 <div class="stat-item">
-                    <span class="stat-valor">12</span>
+                    <span class="stat-valor" id="stat_filmes">0</span>
                     <span class="stat-label">Filmes</span>
                 </div>
                 <div class="stat-item border-left">
-                    <span class="stat-valor">4</span>
+                    <span class="stat-valor" id="stat_curtidas">0</span>
                     <span class="stat-label">Curtidas</span>
                 </div>
                 <div class="stat-item border-left">
-                    <span class="stat-valor">3</span>
+                    <span class="stat-valor" id="stat_watchlist">0</span>
                     <span class="stat-label">Watchlist</span>
                 </div>
             </div>
@@ -86,7 +82,7 @@
 
         <div class="perfil-abas">
             <ul>
-                <a href="perfil.html"><li class="aba-ativa">Perfil</li></a>
+                <a href="diario.html"><li class="aba-ativa">Diário</li></a>
                 <a href="estatisticas.html"><li>Estatísticas</li></a>
                 <a href="configuracoes.html"><li>Configurações</li></a>
             </ul>
@@ -139,8 +135,11 @@
 
     window.onload = function() {
         validarLogin();
-        if (sessionStorage.NOME_USUARIO) {
-            document.getElementById("nome_usuario_perfil").innerHTML = sessionStorage.NOME_USUARIO;
+        
+        if (sessionStorage.ID_USUARIO) {
+            obterDadosPerfil(sessionStorage.ID_USUARIO);
+        } else {
+            window.location = "../login.html";
         }
     };
 
@@ -157,13 +156,53 @@
             li_cadastro.style.display = "none";
             li_entrar.style.display = "none";
             li_perfil.style.display = "block";
-            navbar.style.width = "350px";
+            navbar.style.width = "200px";
         } else {
             li_cadastro.style.display = "block";
             li_entrar.style.display = "block"; 
             li_perfil.style.display = "none";
-            navbar.style.width = "425px";
+            navbar.style.width = "200px";
         }
+    }
+
+    function obterDadosPerfil(idUsuario) {
+        fetch(`/usuarios/buscarPerfil/${idUsuario}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (dados) {
+                    console.log("Dados do perfil recebidos: ", JSON.stringify(dados));
+                    
+                    // 1. Atualiza Nome, Foto e Bio
+                    document.getElementById("nome_usuario_perfil").innerHTML = dados.nome;
+                    
+                    // Se a bio estiver nula ou vazia, coloca uma mensagem padrão
+                    document.getElementById("descricao_usuario_perfil").innerHTML = dados.bio;
+                    
+                    // Se tiver foto registrada, altera o src da imagem
+                    if (dados.foto) {
+                        document.getElementById("foto_usuario_perfil").src = dados.foto;
+                    }
+
+                    // 2. Atualiza os Contadores/Stats da Dashboard
+                    document.getElementById("stat_filmes").innerHTML = dados.total_filmes;
+                    document.getElementById("stat_curtidas").innerHTML = dados.total_curtidas;
+                    document.getElementById("stat_watchlist").innerHTML = dados.total_watchlist;
+                });
+            } else {
+                console.log("Houve um erro ao tentar recuperar os dados do perfil!");
+                resposta.text().then(texto => {
+                    console.error(texto);
+                });
+            }
+        })
+        .catch(function (erro) {
+            console.log("Erro de rede/servidor: ", erro);
+        });
     }
 
 </script>

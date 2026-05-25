@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="../../css/dashboards.css">
 
     <!-- Link Google Fonts -->
-    <link rel="stylesheet" href="./css/estilo.css">
     <link rel="icon" href="./assets/icon/icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,9 +32,6 @@
           <li>
             <a href="../index.html"><p>Início</p></a>
           </li>
-          <li>
-            <a href="../simulador.html"><p>História do Cinema</p></a>
-          </li>
           <li id="li_separador">|</li>
           <li id="li_cadastro">
             <a href="../cadastro.html"><p>Cadastrar</p></a>
@@ -47,7 +43,7 @@
           </li>
 
           <li id="li_perfil" style="display: none;">
-            <a href="perfil.html">
+            <a href="diario.html">
               <div class="botao-entrar"><p>Perfil</p></div>
             </a>
           </li>
@@ -56,29 +52,29 @@
     </div>
 
     <div class="pagina">
-    <div class="container perfil-container">
+    <div class="perfil-container">
         <div class="perfil-header">
             <div class="perfil-info">
                 <div class="foto-perfil">
-                    <img src="../assets/imgs/profile-icon-generic.png" alt="Foto de Perfil">
+                    <img id="foto_usuario_perfil" src="" alt="Foto de Perfil">
                 </div>
                 <div class="texto-perfil">
                     <h1 id="nome_usuario_perfil">Nome do Usuário</h1>
-                    <p class="descricao">Entusiasta do cinema clássico e crítico amador nas horas vagas. Viciado em ficção científica.</p>
+                    <p class="descricao" id="descricao_usuario_perfil"></p>
                 </div>
             </div>
 
             <div class="perfil-stats">
                 <div class="stat-item">
-                    <span class="stat-valor">12</span>
+                    <span class="stat-valor" id="stat_filmes">0</span>
                     <span class="stat-label">Filmes</span>
                 </div>
                 <div class="stat-item border-left">
-                    <span class="stat-valor">4</span>
+                    <span class="stat-valor" id="stat_curtidas">0</span>
                     <span class="stat-label">Curtidas</span>
                 </div>
                 <div class="stat-item border-left">
-                    <span class="stat-valor">3</span>
+                    <span class="stat-valor" id="stat_watchlist">0</span>
                     <span class="stat-label">Watchlist</span>
                 </div>
             </div>
@@ -86,7 +82,7 @@
 
         <div class="perfil-abas">
             <ul>
-                <a href="perfil.html"><li>Perfil</li></a>
+                <a href="diario.html"><li>Diário</li></a>
                 <a href="estatisticas.html"><li class="aba-ativa">Estatísticas</li></a>
                 <a href="configuracoes.html"><li>Configurações</li></a>
             </ul>
@@ -96,19 +92,19 @@
             <div class="kpi-container">
                 <div class="kpi-card">
                     <span class="kpi-titulo">Tempo Assistido</span>
-                    <span class="kpi-valor" id="kpi_tempo">142h</span>
+                    <span class="kpi-valor" id="kpi_tempo"></span>
                 </div>
                 <div class="kpi-card">
                     <span class="kpi-titulo">Gênero Favorito</span>
-                    <span class="kpi-valor" id="kpi_genero">Sci-Fi</span>
+                    <span class="kpi-valor" id="kpi_genero"></span>
                 </div>
                 <div class="kpi-card">
                     <span class="kpi-titulo">Década mais Assistida</span>
-                    <span class="kpi-valor" id="kpi_decada">Anos 80</span>
+                    <span class="kpi-valor" id="kpi_decada"></span>
                 </div>
                 <div class="kpi-card">
                     <span class="kpi-titulo">País mais Assistido</span>
-                    <span class="kpi-valor" id="kpi_pais">Brasil</span>
+                    <span class="kpi-valor" id="kpi_pais"></span>
                 </div>
                 </div>
 
@@ -168,8 +164,15 @@
 
     window.onload = function() {
         validarLogin();
-        if (sessionStorage.NOME_USUARIO) {
-            document.getElementById("nome_usuario_perfil").innerHTML = sessionStorage.NOME_USUARIO;
+        
+        if (sessionStorage.ID_USUARIO) {
+            var idUsuario = sessionStorage.ID_USUARIO;
+            obterDadosPerfil(idUsuario);
+            obterKpisEstatisticas(idUsuario);
+            obterDadosGraficoGeneros(idUsuario);
+            obterDadosGraficoDiretores(idUsuario);
+        } else {
+            window.location = "../login.html";
         }
     };
 
@@ -186,62 +189,173 @@
             li_cadastro.style.display = "none";
             li_entrar.style.display = "none";
             li_perfil.style.display = "block";
-            navbar.style.width = "350px";
+            navbar.style.width = "200px";
         } else {
             li_cadastro.style.display = "block";
             li_entrar.style.display = "block"; 
             li_perfil.style.display = "none";
-            navbar.style.width = "425px";
+            navbar.style.width = "200px";
         }
     }
 
-    function plotarGraficos() {
-    const ctxGeneros = document.getElementById('chartGeneros').getContext('2d');
-    new Chart(ctxGeneros, {
-        type: 'doughnut',
-        data: {
-            labels: ['Sci-Fi', 'Terror', 'Ação', 'Drama'],
-            datasets: [{
-                data: [40, 25, 20, 15],
-                backgroundColor: ['#32b9cd', '#512121', '#ffce56', '#2f9e44'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { position: 'bottom', labels: { color: '#fff' } }
+    function obterDadosPerfil(idUsuario) {
+        fetch(`/usuarios/buscarPerfil/${idUsuario}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
             }
-        }
-    });
+        })
+        .then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (dados) {
+                    console.log("Dados do perfil recebidos: ", JSON.stringify(dados));
+                    
+                    // 1. Atualiza Nome, Foto e Bio
+                    document.getElementById("nome_usuario_perfil").innerHTML = dados.nome;
+                    
+                    // Se a bio estiver nula ou vazia, coloca uma mensagem padrão
+                    document.getElementById("descricao_usuario_perfil").innerHTML = dados.bio;
+                    
+                    // Se tiver foto registrada, altera o src da imagem
+                    if (dados.foto) {
+                        document.getElementById("foto_usuario_perfil").src = dados.foto;
+                    }
 
-    const ctxDiretores = document.getElementById('chartDiretores').getContext('2d');
-    new Chart(ctxDiretores, {
-        type: 'bar',
-        data: {
-            labels: ['Stanley Kubrick', 'Ridley Scott', 'Glauber Rocha', 'John Carpenter'],
-            datasets: [{
-                label: 'Filmes Assistidos',
-                data: [8, 6, 4, 3],
-                backgroundColor: '#32b9cd',
-                borderRadius: 5
-            }]
-        },
-        options: {
-            indexAxis: 'y',
-            responsive: true,
-            scales: {
-                x: { ticks: { color: '#fff' }, grid: { display: false } },
-                y: { ticks: { color: '#fff' }, grid: { display: false } }
+                    // 2. Atualiza os Contadores/Stats da Dashboard
+                    document.getElementById("stat_filmes").innerHTML = dados.total_filmes;
+                    document.getElementById("stat_curtidas").innerHTML = dados.total_curtidas;
+                    document.getElementById("stat_watchlist").innerHTML = dados.total_watchlist;
+                });
+            } else {
+                console.log("Houve um erro ao tentar recuperar os dados do perfil!");
+                resposta.text().then(texto => {
+                    console.error(texto);
+                });
+            }
+        })
+        .catch(function (erro) {
+            console.log("Erro de rede/servidor: ", erro);
+        });
+    }
+
+    function obterKpisEstatisticas(idUsuario) {
+    fetch(`/usuarios/estatisticas/kpis/${idUsuario}`)
+    .then(resposta => resposta.json())
+    .then(dados => {
+        console.log("DADOS RECEBIDOS NAS KPIS:", dados);
+
+        // Se o banco retornar os nomes em MAIÚSCULO, o JavaScript tenta ler das duas formas:
+        let tempoTotal = dados.tempo_total ?? dados.TEMPO_TOTAL ?? 0;
+        let generoFavorito = dados.genero_favorito ?? dados.GENERO_FAVORITO ?? "Nenhum";
+        let decadaFavorita = dados.decada_favorita ?? dados.DECADA_FAVORITA ?? "Nenhum";
+        let paisFavorito = dados.pais_favorito ?? dados.PAIS_FAVORITO ?? "Nenhum";
+
+        let horas = Math.floor(tempoTotal / 60);
+        document.getElementById("kpi_tempo").innerHTML = `${horas}h`;
+        document.getElementById("kpi_genero").innerHTML = generoFavorito;
+        document.getElementById("kpi_pais").innerHTML = paisFavorito;
+        
+        // Tratamento seguro da década para evitar o erro de .toString()
+        let decadaTexto = "Nenhum";
+        if (decadaFavorita && decadaFavorita !== "Nenhum" && decadaFavorita !== 0) {
+            decadaTexto = `Anos ${decadaFavorita.toString().substring(2)}`;
+        }
+        document.getElementById("kpi_decada").innerHTML = decadaTexto;
+
+    }).catch(erro => console.error("Erro ao obter KPIs analíticas:", erro));
+}
+
+function obterDadosGraficoGeneros(idUsuario) {
+    fetch(`/usuarios/estatisticas/generos/${idUsuario}`)
+    .then(resposta => resposta.json())
+    .then(dados => {
+        console.log("DADOS DO GRÁFICO DE GÊNEROS:", dados);
+
+        // Se 'dados' não for um array por algum motivo, transformamos em um array vazio para não quebrar
+        let listaDados = Array.isArray(dados) ? dados : [];
+
+        let labelsGeneros = [];
+        let valoresGeneros = [];
+
+        listaDados.forEach(registro => {
+            // Suporta tanto minusculo quanto maiusculo vindo do banco
+            let nomeGenero = registro.genero ?? registro.GENERO ?? "Ignorado";
+            let quantidade = registro.qtd ?? registro.QTD ?? registro.quantidade ?? 0;
+            
+            labelsGeneros.push(nomeGenero);
+            valoresGeneros.push(quantidade);
+        });
+
+        // Se não houver dados, exibe um aviso visual para o usuário não ver um gráfico em branco
+        if (labelsGeneros.length === 0) {
+            labelsGeneros = ["Nenhum filme assistido"];
+            valoresGeneros = [1];
+        }
+
+        const ctxGeneros = document.getElementById('chartGeneros').getContext('2d');
+        new Chart(ctxGeneros, {
+            type: 'doughnut',
+            data: {
+                labels: labelsGeneros,
+                datasets: [{
+                    data: valoresGeneros,
+                    backgroundColor: ['#32b9cd', '#512121', '#ffce56', '#2f9e44', '#9c27b0'],
+                    borderWidth: 0
+                }]
             },
-            plugins: {
-                legend: { display: false }
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#fff' } }
+                }
             }
-        }
-    });
-    }
+        });
+    }).catch(erro => console.error("Erro no gráfico de gêneros:", erro));
+}
 
-plotarGraficos();
+function obterDadosGraficoDiretores(idUsuario) {
+    fetch(`/usuarios/estatisticas/diretores/${idUsuario}`)
+    .then(resposta => resposta.json())
+    .then(dados => {
+        console.log("DADOS DO GRÁFICO DE DIRETORES:", dados);
+
+        let listaDados = Array.isArray(dados) ? dados : [];
+
+        let labelsDiretores = [];
+        let valoresDiretores = [];
+
+        listaDados.forEach(registro => {
+            let nomeDiretor = registro.diretor ?? registro.DIRETOR ?? "Desconhecido";
+            let quantidade = registro.qtd ?? registro.QTD ?? registro.quantidade ?? 0;
+
+            labelsDiretores.push(nomeDiretor);
+            valoresDiretores.push(quantidade);
+        });
+
+        const ctxDiretores = document.getElementById('chartDiretores').getContext('2d');
+        new Chart(ctxDiretores, {
+            type: 'bar',
+            data: {
+                labels: labelsDiretores,
+                datasets: [{
+                    label: 'Filmes Assistidos',
+                    data: valoresDiretores,
+                    backgroundColor: '#32b9cd',
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                scales: {
+                    x: { ticks: { color: '#fff', stepSize: 1, precision: 0 }, grid: { display: false } },
+                    y: { ticks: { color: '#fff' }, grid: { display: false } }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+    }).catch(erro => console.error("Erro no gráfico de diretores:", erro));
+}
 
 </script>
 

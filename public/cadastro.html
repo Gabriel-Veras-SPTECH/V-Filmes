@@ -13,7 +13,6 @@
   <link rel="stylesheet" href="./css/estilo.css" />
 
   <!-- Link Google Fonts -->
-  <link rel="stylesheet" href="./css/estilo.css">
   <link rel="icon" href="./assets/icon/icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,12 +29,9 @@
   <div class="header">
       <div class="container">
         <a href="index.html"><img src="assets/imgs/logo-branco.png" alt="logo-branco"></a>
-        <ul class="navbar">
+        <ul class="navbar" style="width: 270px;">
           <li>
             <a href="index.html"><p>Início</p></a>
-          </li>
-          <li>
-            <a href="simulador.html"><p>História do Cinema</p></a>
           </li>
           <li>|</li>
           <li>
@@ -59,7 +55,7 @@
     </div>
     <div class="container">
       <div class="card card-cadastro">
-        <h2>Bem-vindo!</h2>
+        <h2>Cadastre-se</h2>
         <div id="formulario">
           <div class="campo">
             <span>Nome:</span>
@@ -128,10 +124,9 @@
 </html>
 
 <script>
+  
 
   function cadastrar() {
-    // aguardar();
-
     //Recupere o valor da nova input pelo nome do id
     // Agora vá para o método fetch logo abaixo
     var nomeVar = nome_input.value;
@@ -147,14 +142,16 @@
       confirmacaoSenhaVar == ""
     ) {
       cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "(Mensagem de erro para todos os campos em branco)";
+      mensagem_erro.innerHTML = `<span style="color:red;">Preencha todos os campos.</span>`;
 
+      setTimeout(sumirMensagem, 5000);
       finalizarAguardar();
       return false;
-    } else {
-      setInterval(sumirMensagem, 5000);
     }
+
+    // verifica se tem @ e se em seguida tem .com no email
+    var posicaoArroba = emailVar.indexOf('@');
+    var emailValido = posicaoArroba > 0 && emailVar.endsWith('.com');
 
   // for para checar se tem número na senha
     let temNumero = false;
@@ -166,11 +163,79 @@
             break;
         }
     }
-        
 
-    if (temNumero == false) {
+    let minusculas = "abcdefghijklmnopqrstuvwxyz";
+    let maiusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let temMinuscula = false;
+    let temMaiuscula = false;
+    
+    // for para checar se tem letra minúscula
+    for (let i = 0; i < senhaVar.length; i++) {
+        let caractereAtual = senhaVar[i];
+
+        for (let j = 0; j < minusculas.length; j++) {
+          let letraAtual = minusculas[j];
+          if (caractereAtual == letraAtual) {
+              temMinuscula = true;
+              break;
+          }
+        }
+    }
+
+    // for para checar se tem letra maiúscula
+    for (let i = 0; i < senhaVar.length; i++) {
+        let caractereAtual = senhaVar[i];
+
+        for (let j = 0; j < maiusculas.length; j++) {
+          let letraAtual = maiusculas[j];
+          if (caractereAtual == letraAtual) {
+              temMaiuscula = true;
+              break;
+          }
+        }
+    }
+
+    let simbolos = "[!@#$%*()_+^&}{:;?.]";
+    let temSimbolo = false;
+    // for para checar se tem símbolo
+    for (let i = 0; i < senhaVar.length; i++) {
+        let caractereAtual = senhaVar[i];
+
+        for (let j = 0; j < simbolos.length; j++) {
+          let letraAtual = simbolos[j];
+          if (caractereAtual == letraAtual) {
+              temSimbolo = true;
+              break;
+          }
+        }
+    }
+
+    let qtdCaracteres = 0;
+    // for para checar quantos caracteres tem
+    for (let i = 0; i < senhaVar.length; i++) {
+        qtdCaracteres++;
+    }
+
+
+    if (senhaVar != confirmacaoSenhaVar) {
         cardErro.style.display = "block";
-        mensagem_erro.innerHTML = "A senha deve ter pelo menos um número!";
+        mensagem_erro.innerHTML = `<span style="color:red;">A senha e a sua confirmação estão diferentes.</span>`;
+        setTimeout(sumirMensagem, 7000);
+        return false;
+    } else if (!emailValido) {
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML = `<span style="color:red;">O seu e-mail deve ter @ e em seguida .com</span>`;
+        setTimeout(sumirMensagem, 7000);
+        return false;
+    }else if (qtdCaracteres < 8) {
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML = `<span style="color:red;">A senha deve ter pelo menos 8 caracteres.</span>`;
+        setTimeout(sumirMensagem, 7000);
+        return false;
+    } else if (temNumero == false || temMinuscula == false || temMaiuscula == false || temSimbolo == false) {
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML = `<span style="color:red;">A senha deve ter pelo menos um número, uma letra minúscula, uma letra maiúscula e um caractere especial.</span>`;
+        setTimeout(sumirMensagem, 7000);
         return false;
     }
 
