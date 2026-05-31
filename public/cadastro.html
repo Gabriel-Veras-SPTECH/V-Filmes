@@ -29,17 +29,24 @@
   <div class="header">
       <div class="container">
         <a href="index.html"><img src="assets/imgs/logo-branco.png" alt="logo-branco"></a>
-        <ul class="navbar" style="width: 270px;">
-          <li>
-            <a href="index.html"><p>Início</p></a>
-          </li>
-          <li>|</li>
-          <li>
+        <ul class="navbar">
+          <li id="li_cadastro">
             <a href="cadastro.html"><p>Cadastrar</p></a>
           </li>
-          <li>
+          <li id="li_entrar">
             <a href="login.html">
-            <div class="botao-entrar"><p>Entrar</p></div>
+              <div class="botao-entrar-ofc"><p>Entrar</p></div>
+            </a>
+          </li>
+
+          <li id="li_perfil" style="display: none;">
+            <a href="./perfil/diario.html">
+              <div class="botao-entrar">
+                <div class="foto-perfil-header">
+                    <img id="foto_usuario_perfil" src="" alt="Foto de Perfil">
+                </div>
+                <p id="nome_usuario_perfil"></p>
+              </div>
             </a>
           </li>
         </ul>
@@ -100,7 +107,6 @@
           <div class="footer_col">
               <span>Páginas</span>
               <a href="index.html">Início</a>
-              <a href="simulador.html">História do Cinema</a>
               <a href="cadastro.html">Cadastrar</a>
               <a href="login.html">Entrar</a>
           </div>
@@ -224,7 +230,7 @@
         return false;
     } else if (!emailValido) {
         cardErro.style.display = "block";
-        mensagem_erro.innerHTML = `<span style="color:red;">O seu e-mail deve ter @ e em seguida .com</span>`;
+        mensagem_erro.innerHTML = `<span style="color:red;">O seu e-mail deve ter @ e depois .com</span>`;
         setTimeout(sumirMensagem, 7000);
         return false;
     }else if (qtdCaracteres < 8) {

@@ -30,4 +30,8 @@ router.get("/estatisticas/generos/:idUsuario", function (req, res) {
 router.get("/estatisticas/diretores/:idUsuario", function (req, res) {
     usuarioController.buscarGraficoDiretores(req, res);
 });
+
+router.get("/diario/:idUsuario", function (req, res) {
+    usuarioController.diario(req, res);
+});
 module.exports = router;

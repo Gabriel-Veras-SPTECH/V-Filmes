@@ -38,7 +38,29 @@ function interagir(req, res) {
     }
 }
 
+function pesquisar(req, res) {
+    var pesquisa = req.params.pesquisa; 
+
+    if (pesquisa == undefined || pesquisa.trim() == "") {
+        res.status(400).send("O termo de pesquisa está indefinido!");
+    } else {
+        filmeModel.pesquisar(pesquisa)
+            .then(function (resultado) {
+                if (resultado.length > 0) {
+                    res.status(200).json(resultado);
+                } else {
+                    res.status(204).json([]); 
+                }
+            }).catch(function (erro) {
+                console.log(erro);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
+
 module.exports = {
     buscarPorId,
-    interagir
+    interagir,
+    pesquisar
 };

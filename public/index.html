@@ -28,36 +28,50 @@
       <div class="container">
         <a href="index.html"><img src="assets/imgs/logo-branco.png" alt="logo-branco"></a>
         <ul class="navbar">
-          <li>
-            <a href="index.html"><p>Início</p></a>
-          </li>
-          <li id="li_separador">|</li>
           <li id="li_cadastro">
             <a href="cadastro.html"><p>Cadastrar</p></a>
           </li>
           <li id="li_entrar">
             <a href="login.html">
-              <div class="botao-entrar"><p>Entrar</p></div>
+              <div class="botao-entrar-ofc"><p>Entrar</p></div>
             </a>
           </li>
 
           <li id="li_perfil" style="display: none;">
             <a href="./perfil/diario.html">
-              <div class="botao-entrar"><p>Perfil</p></div>
+              <div class="botao-entrar">
+                <div class="foto-perfil-header">
+                    <img id="foto_usuario_perfil" src="" alt="Foto de Perfil">
+                </div>
+                <p id="nome_usuario_perfil"></p>
+              </div>
             </a>
           </li>
         </ul>
       </div>
     </div>
-  
     <div class="pagina">
-      <div class="container">
-        <div class="intro">
-        <p>Conheça mais sobre Cinema!</p>
-        <p>Este site foi feito para incentilet o cinema e sua história, com apenas 16 filmes do gosto do desenvolvedor. Sinta-se livre para comentar, discutir, engajar e compartilhar suas visões com os outros.</p>
+  
 
+        <div class="intro">
+          <div class="boas-vindas">
+            <h1 id="texto-boas-vindas">Bem-vindo ao <span>V</span>-Filmes</h1>
+          </div>
+          <div class="div-pesquisa">
+            <input type="text" id="ipt_pesquisa" placeholder="Pesquise por título, diretor ou gênero">
+            <i class="fa-solid fa-magnifying-glass" onclick="buscarFilmes()"></i>
+          </div>
         </div>
 
+      <div id="resultados_pesquisa" class="container" style="display: none;">
+          <div class="categoria">
+            <i class="fa-solid fa-angle-left" onclick="limparPesquisa()"></i><p>Resultados da <span>Pesquisa</span></p>
+          </div>
+          <div id="container_resultados" class="posters"></div>
+      </div>
+
+
+      <div class="container" id="container_recomendacoes">
         <section id="ficcao">
           <div class="categoria">
           <p>Filmes de <span>Ficção Científica</span></p>
@@ -69,7 +83,7 @@
               </div>
               <div class="info">
               <p>Blade Runner</p>
-              <p>1982 • Ficção Científica</p>
+              <p>1982 • Sci-Fi</p>
               </div>
             </a>
             <a href="filme.html?id=2" class="poster">
@@ -77,7 +91,7 @@
               </div>
               <div class="info">
               <p>Akira</p>
-              <p>1988 • Ficção Científica</p>
+              <p>1988 • Sci-Fi</p>
               </div>
             </a>
             <a href="filme.html?id=3" class="poster">
@@ -85,7 +99,7 @@
               </div>
               <div class="info">
               <p>2001: Uma Odisseia no Espaço</p>
-              <p>1968 • Ficção Científica</p>
+              <p>1968 • Sci-Fi</p>
               </div>
             </a>
             <a href="filme.html?id=4" class="poster">
@@ -93,7 +107,7 @@
               </div>
               <div class="info">
               <p>Ex_Machina</p>
-              <p>2014 • Ficção Científica</p>
+              <p>2014 • Sci-Fi</p>
               </div>
             </a>
           </div>
@@ -201,7 +215,7 @@
               </div>
               <div class="info">
               <p>Cabra Marcado Para Morrer</p>
-              <p>1984 • Documentário</p>
+              <p>1984 • Drama</p>
               </div>
             </a>
             <a href="filme.html?id=15" class="poster">
@@ -244,7 +258,6 @@
           <div class="footer_col" id="footer_id">
               <span>Páginas</span>
               <a href="index.html">Início</a>
-              <a href="simulador.html">História do Cinema</a>
               <a href="cadastro.html">Cadastrar</a>
               <a href="login.html">Entrar</a>
           </div>
@@ -267,7 +280,9 @@
 
     window.onload = function() {
         validarLogin();
+        obterDadosPerfil(sessionStorage.ID_USUARIO);
     };
+
 
     function validarLogin() {
         let email = sessionStorage.EMAIL_USUARIO;
@@ -277,7 +292,9 @@
         let li_cadastro = document.getElementById("li_cadastro");
         let li_entrar = document.getElementById("li_entrar");
         let li_perfil = document.getElementById("li_perfil");
+        let li_inicio = document.getElementById("li_inicio");
         let footer_id = document.getElementById("footer_id");
+        let texto_inicio = document.getElementById("texto-boas-vindas");
 
         if (email != null && nome != null) {
             li_cadastro.style.display = "none";
@@ -285,21 +302,94 @@
             li_perfil.style.display = "block";
             footer_id.innerHTML = `<span>Páginas</span>
               <a href="index.html">Início</a>
-              <a href="simulador.html">História do Cinema</a>
-              <a href="perfil/perfil.html">Perfil</a>`;
-            navbar.style.width = "200px";
+              <a href="perfil/diario.html">Perfil</a>`;
+            navbar.style.width = "120px";
+            texto_inicio.innerHTML = `Bem-vindo(a) <span>${nome}</span>`;
         } else {
             li_cadastro.style.display = "block";
             li_entrar.style.display = "block"; 
             li_perfil.style.display = "none";
             footer_id.innerHTML = `<span>Páginas</span>
               <a href="index.html">Início</a>
-              <a href="simulador.html">História do Cinema</a>
               <a href="cadastro.html">Cadastrar</a>
               <a href="login.html">Entrar</a>`;
             navbar.style.width = "270px";
         }
     }
+
+    function obterDadosPerfil(idUsuario) {
+        fetch(`/usuarios/buscarPerfil/${idUsuario}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (dados) {
+                    console.log("Dados do perfil recebidos: ", JSON.stringify(dados));
+                    
+                    document.getElementById("nome_usuario_perfil").innerHTML = dados.nome;
+                    
+                    document.getElementById("foto_usuario_perfil").src = dados.foto;
+                });
+            } else {
+                console.log("Houve um erro ao tentar recuperar os dados do perfil!");
+                resposta.text().then(texto => {
+                    console.error(texto);
+                });
+            }
+        })
+        .catch(function (erro) {
+            console.log("Erro de rede/servidor: ", erro);
+        });
+    }
+
+
+
+
+    function buscarFilmes() {
+    var termoPesquisa = ipt_pesquisa.value;
+
+    fetch(`/filmes/pesquisar/${termoPesquisa}`, { 
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+    })
+    .then(function (resposta) {
+        if (resposta.status == 200) {
+            resposta.json().then(function (filmes) {
+                
+                var containerResultados = document.getElementById("container_resultados");
+                containerResultados.innerHTML = ""; // limpa pesquisas anteriores
+
+                filmes.forEach(filme => {
+                    containerResultados.innerHTML += `
+                        <a href="filme.html?id=${filme.idFilme}" class="poster">
+                          <div class="img" style="background-image: url('${filme.link_poster}');"></div>
+                          <div class="info">
+                            <p>${filme.titulo}</p>
+                            <p>${filme.ano} • ${filme.genero}</p>
+                          </div>
+                        </a>`;
+                });
+
+                // esconde as recomendações antigas e mostra a seção de pesquisa atualizada
+                document.getElementById("container_recomendacoes").style.display = "none";
+                document.getElementById("resultados_pesquisa").style.display = "block";
+            });
+        } else if (resposta.status == 204) {
+            alert("Nenhum filme encontrado com esse termo!");
+        }
+    })
+    .catch(function (erro) {
+        console.log("Erro de rede: ", erro);
+    });
+  }
+
+  function limparPesquisa() {
+    document.getElementById("container_recomendacoes").style.display = "block";
+    document.getElementById("resultados_pesquisa").style.display = "none";
+  }
 </script>
 
 </html>

@@ -15,8 +15,8 @@ function registrarInteracao(idUsuario, idFilme, tipo) {
     }
 
     var instrucao = `
-        INSERT INTO interacao (fkUsuario, fkFilme, ${tipo}) 
-        VALUES (${idUsuario}, ${idFilme}, 1) 
+        INSERT INTO interacao (fkUsuario, fkFilme, ${tipo}, data_log) 
+        VALUES (${idUsuario}, ${idFilme}, 1, NOW()) 
         ON DUPLICATE KEY UPDATE ${updateQuery};
     `;
     

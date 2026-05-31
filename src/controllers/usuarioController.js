@@ -131,10 +131,10 @@ function buscarGraficoGeneros(req, res) {
     var idUsuario = req.params.idUsuario;
     usuarioModel.buscarGraficoGeneros(idUsuario)
         .then(function (resultado) {
-            // Garante que mesmo se o banco voltar vazio, enviamos um array [] para não quebrar o forEach
             if (resultado && resultado.length > 0) {
                 res.status(200).json(resultado);
             } else {
+                // retorna um vetor vazio caso o usuário não tenha nenhuma interação cadastrada ainda
                 res.status(200).json([]); 
             }
         }).catch(function (erro) {
@@ -150,12 +150,52 @@ function buscarGraficoDiretores(req, res) {
             if (resultado && resultado.length > 0) {
                 res.status(200).json(resultado);
             } else {
+                // retorna um vetor vazio caso o usuário não tenha nenhuma interação cadastrada ainda
                 res.status(200).json([]);
             }
         }).catch(function (erro) {
             console.error(erro);
             res.status(500).json(erro.sqlMessage);
         });
+}
+
+function buscarGraficoDiretores(req, res) {
+    var idUsuario = req.params.idUsuario;
+    usuarioModel.buscarGraficoDiretores(idUsuario)
+        .then(function (resultado) {
+            if (resultado && resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                // retorna um vetor vazio caso o usuário não tenha nenhuma interação cadastrada ainda
+                res.status(200).json([]);
+            }
+        }).catch(function (erro) {
+            console.error(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function diario(req, res) {
+    var idUsuario = req.params.idUsuario;
+
+    if (idUsuario == undefined) {
+        res.status(400).send("O idUsuario está undefined!");
+    } else {
+        usuarioModel.diario(idUsuario)
+            .then(function (resultado) {
+                if (resultado && resultado.length > 0) {
+                    res.status(200).json(resultado);
+                } else {
+                    // retorna um vetor vazio caso o usuário não tenha nenhuma interação cadastrada ainda
+                    res.status(200).json([]); 
+                }
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao buscar o diário! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
 }
 
 module.exports = {
@@ -165,5 +205,6 @@ module.exports = {
     atualizar,
     buscarKpisEstatisticas,
     buscarGraficoGeneros,
-    buscarGraficoDiretores
+    buscarGraficoDiretores,
+    diario
 }

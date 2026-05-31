@@ -26,22 +26,23 @@
       <div class="container">
         <a href="../index.html"><img src="../assets/imgs/logo-branco.png" alt="logo-branco"></a>
         <ul class="navbar">
-          <li>
-            <a href="../index.html"><p>Início</p></a>
-          </li>
-          <li id="li_separador">|</li>
           <li id="li_cadastro">
-            <a href="../cadastro.html"><p>Cadastrar</p></a>
+            <a href="cadastro.html"><p>Cadastrar</p></a>
           </li>
           <li id="li_entrar">
-            <a href="../login.html">
-              <div class="botao-entrar"><p>Entrar</p></div>
+            <a href="login.html">
+              <div class="botao-entrar-ofc"><p>Entrar</p></div>
             </a>
           </li>
 
           <li id="li_perfil" style="display: none;">
-            <a href="diario.html">
-              <div class="botao-entrar"><p>Perfil</p></div>
+            <a href="#">
+              <div class="botao-entrar">
+                <div class="foto-perfil-header">
+                    <img id="foto_usuario_perfil_header" src="" alt="Foto de Perfil">
+                </div>
+                <p id="nome_usuario_perfil_header"></p>
+              </div>
             </a>
           </li>
         </ul>
@@ -131,9 +132,8 @@
 
           <div class="footer_col" id="footer_id">
               <span>Páginas</span>
-              <a href="index.html">Início</a>
-              <a href="simulador.html">História do Cinema</a>
-              <a href="perfil.html">Perfil</a>
+              <a href="../index.html">Início</a>
+              <a href="diario.html">Perfil</a>
           </div>
 
           <div class="footer_col">
@@ -211,6 +211,58 @@
                     document.getElementById("input_bio").value = dados.bio ? dados.bio : "";
                 });
             }
+        });
+    }
+
+    function obterDadosPerfil(idUsuario) {
+        fetch(`/usuarios/buscarPerfil/${idUsuario}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (dados) {
+                    console.log("Dados do perfil recebidos: ", JSON.stringify(dados));
+                    
+                    // atualiza nome
+                    document.getElementById("nome_usuario_perfil").innerHTML = dados.nome;
+                    document.getElementById("nome_usuario_perfil_header").innerHTML = dados.nome;
+                    
+                    // se a bio estiver nula ou vazia, coloca uma mensagem padrão
+                    document.getElementById("descricao_usuario_perfil").innerHTML = dados.bio;
+                    
+                    // se tiver foto registrada, altera o src da imagem
+                    if (dados.foto) {
+                        document.getElementById("foto_usuario_perfil").src = dados.foto;
+                        document.getElementById("foto_usuario_perfil_header").src = dados.foto;
+
+                        // preenche o input caso já possua foto personalizada da web
+                        if(dados.foto != '../assets/imgs/profile-icon-generic.png') {
+                            document.getElementById("input_foto").value = dados.foto;
+                        }
+                    }
+
+                    // atualiza os contadores/stats do user
+                    document.getElementById("stat_filmes").innerHTML = dados.total_filmes;
+                    document.getElementById("stat_curtidas").innerHTML = dados.total_curtidas;
+                    document.getElementById("stat_watchlist").innerHTML = dados.total_watchlist;
+
+                    // preenche os campos do formulário para edição
+                    document.getElementById("input_nome").value = dados.nome;
+                    document.getElementById("input_bio").value = dados.bio ? dados.bio : "";
+                    
+                });
+            } else {
+                console.log("Houve um erro ao tentar recuperar os dados do perfil!");
+                resposta.text().then(texto => {
+                    console.error(texto);
+                });
+            }
+        })
+        .catch(function (erro) {
+            console.log("Erro de rede/servidor: ", erro);
         });
     }
 

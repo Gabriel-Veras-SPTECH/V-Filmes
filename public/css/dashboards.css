@@ -43,6 +43,8 @@ a {
   color: aliceblue;
   font-size: 17px;
   transition: 0.3s ease;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .header p:hover {
@@ -54,6 +56,23 @@ a {
 }
 
 .botao-entrar {
+  width: 120px;
+  height: 50px;
+  border-radius: 5px;
+  transition: 0.3s ease;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.botao-entrar:hover {
+  background-color: #4303c348;
+}
+
+.botao-entrar-ofc {
   background-color: #4303c3;
   width: 80px;
   height: 35px;
@@ -66,9 +85,32 @@ a {
   text-align: center;
 }
 
-.botao-entrar:hover {
+.botao-entrar-ofc:hover {
   box-shadow: 0 0 15px 4px #4303c3;
   background-color: #4303c3;
+}
+
+.botao-entrar-ofc p:hover {
+  color:  white;
+}
+
+.botao-entrar p {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.foto-perfil-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.foto-perfil-header img {
+  border-radius: 50%; 
+  max-width: 40px;
+  width: 40px; 
+  height: 40px;
 }
 
 .navbar {
@@ -77,6 +119,7 @@ a {
   justify-content: space-between;
   list-style: none;
   color: aliceblue;
+  max-width: 200px;
 }
 
 .titulo {
@@ -279,9 +322,6 @@ span {
 .aba-conteudo {
     color: #fff;
     min-height: 200px;
-}
-
-.aba-conteudo {
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -333,6 +373,85 @@ span {
     text-align: center;
     margin-bottom: 15px;
     font-family: 'League Spartan', sans-serif;
+}
+
+/* DIÁRIO */
+.rolagem-diario {
+  width: 800px;
+  height: 500px;
+  overflow-y: auto;
+  background-color: #222;
+  border-radius: 10px;
+}
+
+.aba-conteudo-diario {
+    color: #fff;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-diario-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    gap: 20px;
+}
+
+.data-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 70px;
+    border-right: 2px solid #3f3f48;
+    padding-right: 15px;
+}
+.data-badge .dia {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+}
+.data-badge .mes-ano {
+    font-size: 12px;
+    color: #b3b3b3;
+}
+
+.poster-diario img {
+    width: 50px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.feed-vazio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.detalhes-diario {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.detalhes-diario h3 {
+    margin: 0;
+    color: #fff;
+    font-size: 18px;
+}
+.icones-status {
+    display: flex;
+    font-size: 16px;
+}
+
+.icones-status .icone-diario-img {
+    width: 22px;
+    height: auto;
+    margin-right: 8px;
+    object-fit: contain;
 }
 
 /* CONFIGURAÇÕES */

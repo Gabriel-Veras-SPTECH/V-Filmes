@@ -43,6 +43,8 @@ a {
   color: aliceblue;
   font-size: 17px;
   transition: 0.3s ease;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .header p:hover {
@@ -54,6 +56,23 @@ a {
 }
 
 .botao-entrar {
+  width: 120px;
+  height: 50px;
+  border-radius: 5px;
+  transition: 0.3s ease;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.botao-entrar:hover {
+  background-color: #4303c348;
+}
+
+.botao-entrar-ofc {
   background-color: #4303c3;
   width: 80px;
   height: 35px;
@@ -66,9 +85,32 @@ a {
   text-align: center;
 }
 
-.botao-entrar:hover {
+.botao-entrar-ofc:hover {
   box-shadow: 0 0 15px 4px #4303c3;
   background-color: #4303c3;
+}
+
+.botao-entrar-ofc p:hover {
+  color:  white;
+}
+
+.botao-entrar p {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.foto-perfil-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.foto-perfil-header img {
+  border-radius: 50%; 
+  max-width: 40px;
+  width: 40px; 
+  height: 40px;
 }
 
 .navbar {
@@ -77,6 +119,8 @@ a {
   justify-content: space-between;
   list-style: none;
   color: aliceblue;
+  max-width: 180px;
+  min-width: 180px;
 }
 
 .titulo {
@@ -114,7 +158,12 @@ a {
 
 .pagina .container .intro {
   width: 50%;
-  padding: 50px 0;
+}
+
+.intro .boas-vindas{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .pagina .container .intro p:nth-last-of-type(2) {
@@ -139,14 +188,58 @@ a {
   margin-top: 50px;
 }
 
-.pagina .container section .posters{
+.categoria {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 30px;
+}
+
+.intro .div-pesquisa {
+  text-align: center; 
+  margin-top: 10px;
+}
+
+.intro .div-pesquisa input {
+  padding: 10px; 
+  width: 30%; 
+  height: 30px; 
+  border-radius: 25px; 
+  border: 2px solid rgb(19, 19, 19); 
+  background-color: #2b2b2b; 
+  color: #b7b7b7; 
+  font-size: 15px;
+  outline: none; 
+  transition: 0.1s;
+}
+
+.intro .div-pesquisa input:hover {
+  border: 2px solid #4303c3; 
+  
+}
+
+.intro .div-pesquisa i {
+  color: #b7b7b7; 
+  cursor: pointer; 
+  margin-left: -35px;
+}
+
+
+.categoria i{
+  font-size: 25px;
+  color: #4303c3;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.pagina .container .posters{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin-top: 20px;
 }
 
-.pagina .container section .posters .poster{
+.pagina .container .posters .poster{
   width: 200px;
   height: 350px;
   border-radius: 10px;
@@ -158,7 +251,43 @@ a {
   box-sizing: border-box; 
 }
 
-.pagina .container section .posters .poster .info{
+.pagina .container, 
+#resultados_pesquisa {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px 0;
+  box-sizing: border-box;
+}
+
+.pagina .container section .posters,
+#container_resultados {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; 
+  justify-content: flex-start; 
+  gap: 50px; 
+  margin-top: 20px;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.pagina .container section .posters .poster,
+#container_resultados .poster {
+  width: 200px; 
+  height: 350px;
+  border-radius: 10px;
+  transition: 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box; 
+}
+
+.pagina .container .posters .poster .info{
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -167,16 +296,16 @@ a {
   flex-grow: 1;
 }
 
-.pagina .container section .posters .poster p:nth-last-of-type(1){
+.pagina .container .posters .poster p:nth-last-of-type(1){
   font-size: 13px;
   color: rgba(255, 255, 255, 0.647);
 }
 
-.pagina .container section .posters .poster p:nth-last-of-type(2){
+.pagina .container .posters .poster p:nth-last-of-type(2){
   font-size: 18px;
 }
 
-.pagina .container section .posters .poster .img{
+.pagina .container .posters .poster .img{
   width: 100%;
   height: 80%;
   background-size: cover;
@@ -189,7 +318,7 @@ a {
 
   transition: 0.3s ease;
 }
-.pagina .container section .posters .poster:hover{
+.pagina .container .posters .poster:hover{
   background-color: #292929;
   padding: 10px;
 }
@@ -512,6 +641,8 @@ input {
   height: 50px;
   width: 50px;
 }
+
+
 
 /* SIMULADOR */
 

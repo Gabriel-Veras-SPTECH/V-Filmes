@@ -101,6 +101,29 @@ function buscarGraficoGeneros(idUsuario) {
     return database.executar(instrucaoSql);
 }
 
+function diario(idUsuario) {
+    console.log("ACESSEI O USUARIO MODEL para diario, ID: ", idUsuario);
+    var instrucaoSql = `
+        SELECT 
+            i.fkUsuario,
+            i.fkFilme,
+            i.curtida,
+            i.visualizacao,
+            i.watchlist,
+            DAY(i.data_log) AS dia_interacao,
+            MONTH(i.data_log) AS mes_interacao,
+            YEAR(i.data_log) AS ano_interacao,
+            f.titulo,
+            f.link_poster
+        FROM interacao i
+        JOIN filme f ON i.fkFilme = f.idFilme
+        WHERE i.fkUsuario = ${idUsuario} AND (i.visualizacao = 1 OR i.curtida = 1 OR i.watchlist = 1)
+        ORDER BY i.data_log DESC;
+    `;
+    return database.executar(instrucaoSql);
+}
+
+
 module.exports = {
     autenticar,
     cadastrar,
@@ -108,5 +131,6 @@ module.exports = {
     atualizar,
     buscarKpisEstatisticas,
     buscarGraficoGeneros,
-    buscarGraficoDiretores
+    buscarGraficoDiretores,
+    diario,
 };
