@@ -283,14 +283,14 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 nomeServer: nomeVar,
-                fotoServer: fotoVar == "" ? null : fotoVar, // Se estiver vazio mantém o default pelo banco ou lógica
+                fotoServer: fotoVar == "" ? null : fotoVar, // se estiver vazio mantém o default pelo banco ou lógica
                 bioServer: bioVar,
-                senhaServer: senhaVar == "" ? null : senhaVar // Envia null se o usuário optou por não mudar a senha
+                senhaServer: senhaVar == "" ? null : senhaVar // envia null se o usuário optou por não mudar a senha
             })
         }).then(function (resposta) {
             if (resposta.ok) {
                 alert("Perfil atualizado com sucesso!");
-                // Atualiza o sessionStorage caso tenha mudado o nome
+                // atualiza o sessionStorage caso tenha mudado o nome
                 sessionStorage.NOME_USUARIO = nomeVar;
                 window.location.reload();
             } else {

@@ -5,6 +5,7 @@ function buscarPorId(idFilme) {
         SELECT 
             titulo, 
             ano, 
+            duracao_minutos, 
             diretor, 
             genero, 
             elenco, 

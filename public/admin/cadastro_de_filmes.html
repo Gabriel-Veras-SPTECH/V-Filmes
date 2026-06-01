@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="../assets/icon/icon.png" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V-Filmes | Perfil</title>
+
+
+    <link rel="stylesheet" href="../css/admin.css">
+
+    <!-- Link Google Fonts -->
+    <link rel="icon" href="./assets/icon/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Darker+Grotesque:wght@300..900&family=League+Spartan:wght@100..900&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+       
+    <!-- Link FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+
+    <div class="janela">
+        <div class="header-left">
+            
+            <div class="header-left-content">
+
+                <img src="../assets/imgs/logo-branco.png" alt="logo-branco">
+
+                <div class="hello">
+                    <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+                </div>
+
+                <a href="dashboard_admin.html" class="sla">
+                <div class="btn-nav">
+                        <h3>Dashboard</h3>
+                </div>
+                </a>
+
+                <a href="cadastro_de_filmes.html" class="sla">
+                <div class="btn-nav-selected">
+
+                    <h3>Cadastrar filme</h3>
+
+                </div>
+                </a>
+
+                <div class="btn-logout" onclick="limparSessao()">
+                    <h3>Sair</h3>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="conteudo">
+
+            <h1>Cadastrar <span>Filme</span></h1>
+            
+            <div class="form-container">
+                <div class="campo-form">
+                    <span>Título do Filme:</span>
+                    <input id="ipt_titulo" type="text" placeholder="Ex: Blade Runner">
+                </div>
+                <div class="campo-form">
+                    <span>Ano de Lançamento:</span>
+                    <input id="ipt_ano" type="number" placeholder="Ex: 1982">
+                </div>
+                <div class="campo-form">
+                    <span>Diretor:</span>
+                    <input id="ipt_diretor" type="text" placeholder="Ex: Ridley Scott">
+                </div>
+                <div class="campo-form">
+                    <span>Gênero:</span>
+                    <input id="ipt_genero" type="text" placeholder="Ex: Sci-Fi">
+                </div>
+                <div class="campo-form">
+                    <span>País de Origem:</span>
+                    <input id="ipt_pais" type="text" placeholder="Ex: Estados Unidos">
+                </div>
+                <div class="campo-form">
+                    <span>Duração (em minutos):</span>
+                    <input id="ipt_duracao" type="number" placeholder="Ex: 117">
+                </div>
+                <div class="campo-form full-width">
+                    <span>Elenco:</span>
+                    <input id="ipt_elenco" type="text" placeholder="Ex: Harrison Ford, Rutger Hauer">
+                </div>
+                <div class="campo-form full-width">
+                    <span>URL do Poster:</span>
+                    <input id="ipt_poster" type="text" placeholder="https://exemplo.com/poster.jpg">
+                </div>
+                <div class="campo-form full-width">
+                    <span>URL do Banner:</span>
+                    <input id="ipt_banner" type="text" placeholder="https://exemplo.com/banner.jpg">
+                </div>
+                <div class="campo-form full-width">
+                    <span>Sinopse:</span>
+                    <textarea id="ipt_descricao" placeholder="Digite uma breve sinopse do filme..."></textarea>
+                </div>
+                
+                <button class="btn-salvar" onclick="cadastrarFilme()">Confirmar</button>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+    window.onload = function() {
+        if (!sessionStorage.ID_USUARIO) {
+            window.location = "../login.html";
+        }
+    };
+
+    function cadastrarFilme() {
+        var tituloVar = ipt_titulo.value;
+        var anoVar = ipt_ano.value;
+        var diretorVar = ipt_diretor.value;
+        var elencoVar = ipt_elenco.value;
+        var descricaoVar = ipt_descricao.value;
+        var posterVar = ipt_poster.value;
+        var bannerVar = ipt_banner.value;
+        var generoVar = ipt_genero.value;
+        var paisVar = ipt_pais.value;
+        var duracaoVar = ipt_duracao.value;
+
+        // validação se tudo foi preenchido
+        if (
+            tituloVar == "" || 
+            anoVar == "" || 
+            diretorVar == "" || 
+            elencoVar == "" || 
+            descricaoVar == "" || 
+            posterVar == "" || 
+            bannerVar == "" || 
+            generoVar == "" || 
+            paisVar == "" || 
+            duracaoVar == ""
+        ) {
+            alert("Por favor, preencha todos os campos do formulário antes de prosseguir!");
+            return false;
+        }
+
+        fetch("/admin/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                tituloServer: tituloVar,
+                anoServer: anoVar,
+                diretorServer: diretorVar,
+                elencoServer: elencoVar,
+                descricaoServer: descricaoVar,
+                linkPosterServer: posterVar,
+                linkBannerServer: bannerVar,
+                generoServer: generoVar,
+                paisServer: paisVar,
+                duracaoServer: duracaoVar
+            })
+        }).then(function (resposta) {
+            if (resposta.ok) {
+                alert("Filme cadastrado com sucesso no banco de dados!");
+                
+                // limpa os campos após o sucesso
+                ipt_titulo.value = "";
+                ipt_ano.value = "";
+                ipt_diretor.value = "";
+                ipt_elenco.value = "";
+                ipt_descricao.value = "";
+                ipt_poster.value = "";
+                ipt_banner.value = "";
+                ipt_genero.value = "";
+                ipt_pais.value = "";
+                ipt_duracao.value = "";
+            } else {
+                throw ("Houve um erro ao tentar cadastrar o filme!");
+            }
+        }).catch(function (erro) {
+            console.log(erro);
+            alert("Erro ao realizar o cadastro do filme. Verifique o console.");
+        });
+
+        return false;
+    }
+
+    function limparSessao() {
+        sessionStorage.clear();
+        window.location = "../login.html";
+    }
+</script>
+
+</html>

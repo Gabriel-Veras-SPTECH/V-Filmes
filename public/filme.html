@@ -65,6 +65,7 @@
             <p id="descricao_filme"></p>
         </div>
 
+        <p class="diretor"><strong>Diretor:</strong> <span id="diretor_filme"></span></p>
         <p class="elenco"><strong>Elenco:</strong> <span id="elenco_filme"></span></p>
 
         <div class="botoes">
@@ -226,7 +227,8 @@
         document.getElementById("titulo_filme").innerHTML = filme.titulo;
         document.getElementById("descricao_filme").innerHTML = filme.descricao;
         document.getElementById("elenco_filme").innerHTML = filme.elenco;
-        document.getElementById("info_filme").innerHTML = `${filme.ano} • Direção: ${filme.diretor}`;
+        document.getElementById("diretor_filme").innerHTML = filme.diretor;
+        document.getElementById("info_filme").innerHTML = `${filme.ano} • ${filme.duracao_minutos}min`;
         document.getElementById("img_filme").src = filme.link_poster;
         document.getElementById("banner_filme").style.backgroundImage = `url('${filme.link_banner}')`;
     }
@@ -264,8 +266,12 @@
 
     // função para registrar a interação, passando o tipo de interação como parametro
     function registrarInteracao(tipo) {
+
     const idUsuario = sessionStorage.ID_USUARIO;
-    if (!idUsuario) return alert("Faça login para interagir!");
+
+    if (!idUsuario) {
+        return alert("Faça login para interagir!");
+    }
 
     fetch("/interacoes/registrar", {
         method: "POST",

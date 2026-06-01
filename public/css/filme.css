@@ -193,6 +193,11 @@ a {
 }
 
 .elenco {
+  font-style: italic;
+  color: #ddd;
+}
+
+.diretor {
   margin-top: 30px;
   font-style: italic;
   color: #ddd;
