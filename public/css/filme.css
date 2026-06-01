@@ -149,6 +149,102 @@ a {
   padding-bottom: 50px;
 }
 
+.div-comentarios {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10%;
+  margin-top: 80px;
+}
+
+.div-comentarios h2 {
+  color: white;
+}
+
+.div-comentarios .div-rolagem {
+  width: 1000px;
+  height: 400px;
+  overflow-y: auto;
+  background-color: #222;
+  border-radius: 10px;
+}
+
+.card-comentario {
+    padding: 15px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid gray;
+    gap: 8px;
+}
+
+.autor-comentario {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.autor-comentario img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.autor-comentario strong {
+    color: #fff;
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+}
+
+
+.conteudo-comentario p {
+    color: #ccc;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.4;
+}
+
+
+.campo-comentario {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.campo-comentario textarea {
+    height: 60px;
+    width: 980px;
+    background-color: #121214;
+    border: 1px solid #333;
+    border-radius: 6px;
+    color: #fff;
+    padding: 10px;
+    margin-top: 10px;
+    outline: none;
+}
+
+.campo-comentario textarea:hover {
+  border: 1px solid #4303c3;
+}
+
+.campo-comentario button {
+    background-color: #4303c3;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0 20px;
+    height: 50px;
+    width: 1000px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s ease;
+}
+
+.campo-comentario button:hover {
+  box-shadow: 0 0 15px 3px #4303c3;
+}
 
 .fundo-detalhes .container {
   display: flex;

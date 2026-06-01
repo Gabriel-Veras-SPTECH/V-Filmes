@@ -35,7 +35,35 @@ function pesquisar(pesquisa) {
     return database.executar(instrucaoSql);
 }
 
+function buscarComentarios(idFilme) {
+    var instrucaoSql = `
+        SELECT 
+            m.idPost,
+            m.mensagem,
+            m.data_postagem,
+            u.nome AS nome_usuario,
+            u.foto AS foto_usuario
+        FROM mural m
+        JOIN usuario u ON m.fkUsuario = u.id
+        WHERE m.fkFilme = ${idFilme}
+        ORDER BY m.data_postagem DESC;
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function publicarComentario(idUsuario, idFilme, mensagem) {
+    var instrucaoSql = `
+        INSERT INTO mural (fkUsuario, fkFilme, mensagem) 
+        VALUES (${idUsuario}, ${idFilme}, '${mensagem}');
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarPorId,
-    pesquisar
+    pesquisar,
+    buscarComentarios,
+    publicarComentario
 };

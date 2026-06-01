@@ -324,7 +324,7 @@ span {
     min-height: 200px;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
 }
 
 .kpi-container {

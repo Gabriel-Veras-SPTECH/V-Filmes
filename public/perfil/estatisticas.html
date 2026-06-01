@@ -267,22 +267,20 @@ function obterDadosGraficoGeneros(idUsuario) {
     .then(dados => {
         console.log("DADOS DO GRÁFICO DE GÊNEROS:", dados);
 
-        // Se 'dados' não for um array por algum motivo, transformamos em um array vazio para não quebrar
-        let listaDados = Array.isArray(dados) ? dados : [];
+        let listaDados = dados;
 
         let labelsGeneros = [];
         let valoresGeneros = [];
 
         listaDados.forEach(registro => {
-            // Suporta tanto minusculo quanto maiusculo vindo do banco
-            let nomeGenero = registro.genero ?? registro.GENERO ?? "Ignorado";
-            let quantidade = registro.qtd ?? registro.QTD ?? registro.quantidade ?? 0;
+            let nomeGenero = registro.genero;
+            let quantidade = registro.qtd;
             
             labelsGeneros.push(nomeGenero);
             valoresGeneros.push(quantidade);
         });
 
-        // Se não houver dados, exibe um aviso visual para o usuário não ver um gráfico em branco
+        // se não houver dados exibe um aviso visual para o usuário não ver um gráfico em branco
         if (labelsGeneros.length === 0) {
             labelsGeneros = ["Nenhum filme assistido"];
             valoresGeneros = [1];
@@ -315,14 +313,14 @@ function obterDadosGraficoDiretores(idUsuario) {
     .then(dados => {
         console.log("DADOS DO GRÁFICO DE DIRETORES:", dados);
 
-        let listaDados = Array.isArray(dados) ? dados : [];
+        let listaDados = dados;
 
         let labelsDiretores = [];
         let valoresDiretores = [];
 
         listaDados.forEach(registro => {
-            let nomeDiretor = registro.diretor ?? registro.DIRETOR ?? "Desconhecido";
-            let quantidade = registro.qtd ?? registro.QTD ?? registro.quantidade ?? 0;
+            let nomeDiretor = registro.diretor;
+            let quantidade = registro.qtd;
 
             labelsDiretores.push(nomeDiretor);
             valoresDiretores.push(quantidade);

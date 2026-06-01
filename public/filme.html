@@ -80,6 +80,21 @@
         <img id="img_filme" src="" alt="Poster">
         </div>
     </div>
+    <div class="div-comentarios">
+        <h2>Sessão de <span>Comentários</span></h2>
+        
+        <p id="msg_faca_login" style="color: #aaa; margin-bottom: 15px;">Faça login para deixar um comentário.</p>
+
+        <div class="div-rolagem" id="div_lista_comentarios">
+        </div>
+
+        <div id="div_comentar" class="campo-comentario" style="display: none;">
+            <textarea id="ipt_mensagem" placeholder="Escreva um comentário sobre o filme..." maxlength="255"></textarea>
+            <button onclick="publicarComentario()">Comentar</button>
+        </div>
+
+    </div>
+
     </div>
 
   <!--footer inicio-->
@@ -129,9 +144,13 @@
             window.location.href = "index.html";
         } else {
             buscarDadosDoFilme();
+            atualizarMural();
             if (sessionStorage.ID_USUARIO) {
                 buscarStatusInteracao();
                 obterDadosPerfil(sessionStorage.ID_USUARIO);
+
+                document.getElementById("div_comentar").style.display = "flex"; 
+                document.getElementById("msg_faca_login").style.display = "none";
             }
         }
     };
@@ -287,5 +306,75 @@
             buscarStatusInteracao(); 
         }
     });
+    }
+
+    function atualizarMural() {
+        fetch(`/filmes/comentarios/${idFilme}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        })
+        .then(function (resposta) {
+            var divRolagem = document.getElementById("div_lista_comentarios");
+
+            // se o banco for vazio
+            if (resposta.status == 204) {
+                divRolagem.innerHTML = `<p style="color: #aaa; text-align: center; padding-top: 20px;">Seja o primeiro a comentar!</p>`;
+                return;
+            }
+
+            if (resposta.ok) {
+                resposta.json().then(comentarios => {
+                    divRolagem.innerHTML = "";
+
+                    for (let i = 0; i < comentarios.length; i++) {
+                        let post = comentarios[i];
+
+                        divRolagem.innerHTML += `
+                            <div class="card-comentario">
+                                <div class="autor-comentario">
+                                    <img src="${post.foto_usuario}">
+                                    <strong>${post.nome_usuario}</strong>
+                                </div>
+                                <div class="conteudo-comentario">
+                                    <p>${post.mensagem}</p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }).catch(erroJson => {
+                    console.error("Erro ao converter o JSON dos comentários:", erroJson);
+                });
+            } else {
+                console.error('Erro na resposta do servidor ao buscar comentários:', resposta.status);
+                resposta.text().then(texto => console.error("Detalhes do erro do servidor:", texto));
+            }
+        })
+        .catch(erro => console.error("Erro na requisição do mural (Rede):", erro));
+    }
+    function publicarComentario() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+        var mensagem = document.getElementById("ipt_mensagem").value;
+
+        if (!mensagem.trim()) {
+            alert("O comentário não pode estar vazio!");
+            return;
+        }
+
+        fetch("/filmes/comentar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                idUsuarioServer: idUsuario,
+                idFilmeServer: idFilme,
+                mensagemServer: mensagem
+            })
+        }).then(function (resposta) {
+            if (resposta.ok) {
+                document.getElementById("ipt_mensagem").value = ""; // limpa o input
+                atualizarMural(); // recarrega os comentários na hora
+            } else {
+                alert("Erro ao publicar comentário!");
+            }
+        }).catch(erro => console.log(erro));
     }
 </script>
